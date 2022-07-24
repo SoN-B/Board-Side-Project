@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+
+    <!-- jquery & bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- web font -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+
+    <!-- my css -->
+    <link rel="stylesheet" href="/css/master.css">
+
+    <!-- my js -->
+    <script src="/js/index.js" defer></script>
+
+    <title>My Website</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-sm navbar-light bg-light mb-3">
+        <div class="container">
+            <div class="navbar-brand">My Website</div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
+                    <li class="nav-item"><a href="/about" class="nav-link">About</a></li>
+                    <li class="nav-item"><a href="/posts" class="nav-link">Board</a></li>
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    <button type="button" id="profile" class="btn btn-outline-dark">Profile</button>
+                    <li class="nav-item"><a href="/user/login" class="nav-link">Log In</a></li>
+                    <li class="nav-item"><a href="/user/register" class="nav-link">Sign Up</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mb-3">
+
+        <h3 class="contentBoxTop">
+            My Profile
+        </h3>
+
+        <fieldset disabled>
+            <div class="form-group row">
+                <label for="name" class="col-sm-3 col-form-label">Name</label>
+                <div class="col-sm-9">
+                    <input class="form-control" type="text" id="username" name="username" value="">
+                    <script>
+                        const urlStr = window.location.href;;
+                        const url = new URL(urlStr);
+
+                        const urlParams = url.searchParams;
+
+                        const username = urlParams.get('username');
+                        const email = urlParams.get('email');
+
+                        $('input[name=username]').attr('value', username);
+                    </script>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="email" class="col-sm-3 col-form-label">Email</label>
+                <div class="col-sm-9">
+                    <input class="form-control" type="text" id="email" name="email" value="">
+                    <script>
+                        $('input[name=email]').attr('value', email);
+                    </script>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+</body>
+
+</html>
