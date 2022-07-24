@@ -30,3 +30,9 @@ body {
 .user-form {
   width: 400px;
 }
+
+.btn-link {
+  font-weight: 400;
+  color: rgba(0,0,0,.5);
+  background-color: transparent;
+}

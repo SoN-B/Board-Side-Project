@@ -49,15 +49,21 @@ exports.register = (req, res) => {
             });
         }
         else { // 찾는 이메일이 없을 경우 (중복 X)
-            if ( email === "" ) {
+            if ( username === "" ) {
                 return res.status(405).json({
-                    message: "Empty id.",
+                    message: "Please input username.",
+                    code: 405
+                });
+            }
+            else if ( email === "" ) {
+                return res.status(405).json({
+                    message: "Please input id.",
                     code: 405
                 });
             }
             else if (password === "") {
                 return res.status(405).json({
-                    message: "Empty password.",
+                    message: "Please input password.",
                     code: 405
                 });
             }
@@ -67,7 +73,9 @@ exports.register = (req, res) => {
                     email: email,
                     password: md5(password),
                 }).then(() => {
-                    res.render("user/login");
+                    return res.status(200).json({
+                        code: 200
+                    });
                 }).catch((err) => {
                     return res.status(500).json({
                         message: err,
