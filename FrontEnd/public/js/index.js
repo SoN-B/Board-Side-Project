@@ -22,6 +22,7 @@ function profileAuth() {
 function logOut() {
     if(!localStorage.getItem('access_token')) {
         alert("Already logout state.")
+        location.href = "/user/login";
     }
     else {
         localStorage.removeItem('access_token');
