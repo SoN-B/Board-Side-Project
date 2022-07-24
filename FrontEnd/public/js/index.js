@@ -1,6 +1,8 @@
 const profile = document.querySelector("#profile");
+const logout = document.querySelector("#logout");
 
 profile.addEventListener("click", profileAuth);
+logout.addEventListener("click", logOut);
 
 function profileAuth() {
     fetch("/user/profile", {
@@ -15,4 +17,15 @@ function profileAuth() {
             location.href = "/user/login";
         }
     })
+}
+
+function logOut() {
+    if(!localStorage.getItem('access_token')) {
+        alert("Already logout state.")
+    }
+    else {
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('refresh_token');
+        location.href = "/";
+    }
 }
