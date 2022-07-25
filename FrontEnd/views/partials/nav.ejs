@@ -10,12 +10,28 @@
                 <li class="nav-item"><a href="/about" class="nav-link">About</a></li>
                 <li class="nav-item"><a href="/posts" class="nav-link">Board</a></li>
             </ul>
-            <ul class="navbar-nav ml-auto">
+            <ul id="insert" class="navbar-nav ml-auto">
+            </ul>
+            <script>
+                const log_in =
+                    `
                 <button type="button" id="profile" class="btn btn-link">Profile</button>
                 <button type="button" id="logout" class="btn btn-link">Log Out</button>
+                `
+
+                const log_out =
+                    `
+                <button type="button" id="profile" class="btn btn-link">Profile</button>
                 <li class="nav-item"><a href="/user/login" class="nav-link">Log In</a></li>
                 <li class="nav-item"><a href="/user/register" class="nav-link">Sign Up</a></li>
-            </ul>
+                `
+
+                if (!localStorage.getItem('access_token')) {
+                    $('#insert').append(log_out);
+                } else if (localStorage.getItem('access_token')) {
+                    $('#insert').append(log_in);
+                }
+            </script>
         </div>
     </div>
 </nav>
