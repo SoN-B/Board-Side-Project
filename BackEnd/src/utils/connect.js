@@ -2,6 +2,7 @@
 
 const Sequelize = require('sequelize');
 const User = require('../models/user');
+const Post = require('../models/post');
 
 // 데이터베이스 설정을 불러옴
 const config = require('config');
@@ -19,7 +20,12 @@ const db = {};
 
 db.sequelize = sequelize; 
 db.User = User;
+db.Post = Post;
 
 User.init(sequelize);
+Post.init(sequelize);
+
+User.associate(db);
+Post.associate(db);
 
 module.exports = db;
