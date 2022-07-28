@@ -8,7 +8,7 @@ const REFRESH_SECRET_KEY = config.get('JWT.refresh_secret_key');
 const signJWT = {
     access(payload) {
         return jwt.sign(payload, ACCESS_SECRET_KEY, {
-            expiresIn: '15m', 
+            expiresIn: '1h', 
             issuer: config.get('JWT.issuer'),
         });
     },
@@ -26,7 +26,7 @@ const signJWT = {
                 if (err) res.sendStatus(403);
                 const access_token = this.access({
                     type: decoded.type,
-                    email: decoded.email,
+                    id: decoded.id,
                 });
                 return access_token;
             }

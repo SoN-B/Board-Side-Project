@@ -18,8 +18,8 @@ exports.login = (req, res) => {
                 });
             }
             else { // 비밀번호 맞음
-                let access_token = await signJWT.access({ type: 'JWT', email: user.email });
-                let refresh_token = await signJWT.refresh({ type: 'JWT', email: user.email });
+                let access_token = await signJWT.access({ type: 'JWT', id: user.id });
+                let refresh_token = await signJWT.refresh({ type: 'JWT', id: user.id });
                 return res.status(200).json({
                     message: "Authorize success.",
                     code: 200,
@@ -93,7 +93,7 @@ exports.profileOutput = (req, res) => {
 
 exports.profile = async (req, res) => {
     const userinfo = await User.findOne({
-        where: { email: req.decoded.email }
+        where: { id: req.decoded.id }
     })
 
     return res.status(200).json({
