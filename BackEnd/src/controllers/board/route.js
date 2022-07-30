@@ -14,6 +14,6 @@ router.get("/new", ctrl.new)
 
 router.route("/:id")
     .get(ctrl.boardById)
-    .post(ctrl.delete)
+    .post(auth, ctrl.delete)
 
 module.exports = router;

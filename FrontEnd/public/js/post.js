@@ -1,6 +1,6 @@
 const title = document.querySelector("#title");
 const body = document.querySelector("#body");
-const new_post = document.querySelector("#button");
+const new_post = document.querySelector("#new");
 
 new_post.addEventListener("click", newPost);
 
@@ -24,7 +24,7 @@ function newPost() {
     .then((res) => res.json())
     .then((res) => {
         if(res.code === 200) {
-            location.href = "/"; 
+            location.href = "/board";
         } else return alert(res.message);
     })
 }

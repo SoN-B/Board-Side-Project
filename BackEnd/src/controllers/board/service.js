@@ -35,17 +35,45 @@ exports.boardPost = (req, res) => {
 exports.new = (req, res) => { res.render('post/new'); }
 
 exports.boardById = (req, res) => {
-    Post.findOne({ where: { id: req.params.id }})
+    Post.findOne({ where: { id: req.params.id } })
     .then((data) => {
-        res.render('post/show', {post:data});
+        Post.findOne({
+            include: [{
+                model: User,
+                attributes: ['username'],
+                where: { id: data.userkey }
+            }],
+            where: { id: req.params.id }
+        }).then((data) => {
+            res.render('post/show', {post:data});
+        }).catch(() => {
+            return res.status(500).json({ code: 500 });
+        });
     }).catch(() => {
         return res.status(500).json({ code: 500 });
     });
 }
 
 exports.delete = (req, res) => {
-    Post.destroy({where: { id: req.params.id }}).then(() => {
-        return res.status(200).json({ code: 200 });
+    let userid = req.decoded.id;
+    let contentid = req.body.id;
+
+    Post.findOne({ 
+        attributes: ['userkey'],
+        where: { id: contentid }
+    }).then((data) => {
+        if(userid === data.userkey) {
+            Post.destroy({where: { id: req.params.id }}).then(() => {
+                return res.status(200).json({ code: 200 });
+            }).catch(() => {
+                return res.status(500).json({ code: 500 });
+            });
+        } else {
+            return res.status(401).json({ 
+                code: 401,
+                message: "Unauthorized."
+            });
+        }
     }).catch(() => {
         return res.status(500).json({ code: 500 });
     });
