@@ -12,4 +12,8 @@ router.route("/")
 
 router.get("/new", ctrl.new)
 
+router.route("/:id")
+    .get(ctrl.boardById)
+    .post(ctrl.delete)
+
 module.exports = router;

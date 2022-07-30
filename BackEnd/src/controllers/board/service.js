@@ -33,3 +33,20 @@ exports.boardPost = (req, res) => {
 }
 
 exports.new = (req, res) => { res.render('post/new'); }
+
+exports.boardById = (req, res) => {
+    Post.findOne({ where: { id: req.params.id }})
+    .then((data) => {
+        res.render('post/show', {post:data});
+    }).catch(() => {
+        return res.status(500).json({ code: 500 });
+    });
+}
+
+exports.delete = (req, res) => {
+    Post.destroy({where: { id: req.params.id }}).then(() => {
+        return res.status(200).json({ code: 200 });
+    }).catch(() => {
+        return res.status(500).json({ code: 500 });
+    });
+}
