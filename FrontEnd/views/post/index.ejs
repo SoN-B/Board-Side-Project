@@ -27,7 +27,7 @@
                             <% posts.forEach(function(post) { %>
                                 <tr>
                                     <td>
-                                        <a href="/posts/<%= post.id %>">
+                                        <a href="/board/<%= post.id %>">
                                             <div class="ellipsis">
                                                 <%= post.title %>
                                             </div>
@@ -41,11 +41,11 @@
                 </tbody>
             </table>
             <div>
-                <a class="btn btn-primary" href="/posts/new">New</a>
+                <a class="btn btn-primary" href="/board/new">New</a>
             </div>
-
-            <script src="/js/date.js" defer></script>
         </div>
+
+        <script src="/js/date.js" defer></script>
 </body>
 
 </html>

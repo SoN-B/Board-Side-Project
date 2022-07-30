@@ -10,4 +10,6 @@ router.route("/")
     .get(ctrl.boardGet)
     .post(auth, ctrl.boardPost)
 
+router.get("/new", ctrl.new)
+
 module.exports = router;

@@ -7,8 +7,6 @@ exports.boardGet = (req, res) => {
     Post.findAll({
         order: [['createdAt', 'DESC']]
     }).then((data) => {
-
-        console.log(data);
         res.render('post/index', {posts: data});
     }).catch((err) => {
         return res.status(500).json({
@@ -27,13 +25,11 @@ exports.boardPost = (req, res) => {
         hit: 0,
         view: 0,
         userkey: userkey
-    }).then((data) => {
-        return res.status(200).json({
-            data
-        });
-    }).catch((err) => {
-        return res.status(500).json({
-            err
-        });
+    }).then(() => {
+        return res.status(200).json({ code: 200 });
+    }).catch(() => {
+        return res.status(500).json({ code: 500 });
     });
 }
+
+exports.new = (req, res) => { res.render('post/new'); }
