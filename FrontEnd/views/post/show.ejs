@@ -45,16 +45,50 @@
             </div>
 
             <div class="mt-3">
-                <form>
-                    <a class="btn btn-primary" href="/board">Back</a>
-                    <a class="btn btn-primary" href="/board/<%= post.id %>/edit">Edit</a>
-                    <button type="button" id="delete" class="btn btn-primary">Delete</button>
+                <form id="Feat" action="/board/<%= post.id %>" method="post">
+                    <!-- <a class="btn btn-primary" href="/board">Back</a> -->
+                    <!-- <button type="button" id="update" class="btn btn-primary">Edit</button> -->
+                    <!-- <a class="btn btn-primary" href="/board/<%= post.id %>/edit">Edit</a> -->
+                    <!-- <button type="button" id="delete" class="btn btn-primary">Delete</button> -->
                 </form>
             </div>
         </div>
 
+        <script>
+            const owner =
+                `
+                <a class="btn btn-primary" href="/board">Back</a>
+                <a class="btn btn-primary" href="/board/<%= post.id %>/edit">Edit</a>
+                <button type="submit" class="btn btn-primary">Delete</button>
+            `
+
+            const no_owner =
+                `
+                <a class="btn btn-primary" href="/board">Back</a>
+            `
+
+            let urlStr = window.location.href;
+            let contentid = urlStr.split('/');
+
+            window.onload = function () {
+                fetch(`/board/${contentid[4]}/auth`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'authorization': localStorage.getItem('access_token')
+                    }
+                })
+                    .then((res) => res.json())
+                    .then((res) => {
+                        if (res.code === 200) {
+                            $('#Feat').append(owner);
+                        } else {
+                            $('#Feat').append(no_owner);
+                        }
+                    })
+            }
+        </script>
         <script src="/js/date.js" defer></script>
-        <script src="/js/delete.js" defer></script>
+        <!-- <script src="/js/delete.js" defer></script> -->
 </body>
 
 </html>
