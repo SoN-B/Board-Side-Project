@@ -1,10 +1,10 @@
 const title = document.querySelector("#title");
 const body = document.querySelector("#body");
-const new_post = document.querySelector("#new");
+const create_post = document.querySelector("#create");
 
-new_post.addEventListener("click", newPost);
+create_post.addEventListener("click", createPost);
 
-function newPost() {
+function createPost() {
     if(!title.value) return alert("Please input title.");
     if(!body.value) return alert("Please input body.");
 
