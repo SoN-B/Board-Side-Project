@@ -39,10 +39,18 @@
                 </tbody>
             </table>
             <div>
-                <a class="btn btn-primary" href="/board/new">New</a>
+                <button type="button" onclick="loginCheck()" class="btn btn-primary">New</button>
             </div>
         </div>
 
+        <script>
+            function loginCheck() {
+                if (!localStorage.getItem('access_token')) {
+                    alert("Please login first.");
+                    location.href = '/user/login';
+                } else { location.href = '/board/new'; }
+            }
+        </script>
         <script src="/js/post/date.js" defer></script>
 </body>
 
