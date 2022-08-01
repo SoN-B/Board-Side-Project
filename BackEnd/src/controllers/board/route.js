@@ -10,15 +10,15 @@ router.route("/")
     .get(ctrl.boardGet)
     .post(auth, ctrl.boardPost)
 
-router.get("/new", ctrl.new)
+router.get("/new", ctrl.newView)
 
 router.route("/:id")
-    .get(ctrl.boardById)
-    .post(ctrl.delete)
+    .get(ctrl.boardView_id)
+    .post(ctrl.boardDelete_id)
 
 router.route("/:id/edit")
-    .get(ctrl.editGet)
-    .post(ctrl.editPost)
+    .get(ctrl.editView_id)
+    .post(ctrl.boardEdit_id)
 
 router.get("/:id/auth", auth, ctrl.auth)
 

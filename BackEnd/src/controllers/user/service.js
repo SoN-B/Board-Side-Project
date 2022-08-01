@@ -5,9 +5,9 @@ const signJWT = require('../../functions/signJWT');
 const md5 = require('md5');
 const path = require('path');
 
-exports.loginOutput = (req, res) => { res.render("user/login"); }
+exports.loginView = (req, res) => { res.render("user/login"); }
 
-exports.login = (req, res) => {
+exports.loginPost = (req, res) => {
     let { email, password } = req.body;
     User.findOne({ where: { email: email }}).then( async (user) => {
         if ( user ) { // email로 찾았다면,
@@ -37,9 +37,9 @@ exports.login = (req, res) => {
     });
 }
 
-exports.registerOutput = (req, res) => { res.render("user/register"); }
+exports.registerView = (req, res) => { res.render("user/register"); }
 
-exports.register = (req, res) => {
+exports.registerPost = (req, res) => {
     let { email, password, username } = req.body;
     User.findOne({ where: { email: email }}).then(( exist_verify ) => {
         if ( exist_verify ) {
@@ -87,11 +87,11 @@ exports.register = (req, res) => {
     });
 }
 
-exports.profileOutput = (req, res) => {
+exports.profileView = (req, res) => {
     res.sendFile(path.join(__dirname, '../../../../FrontEnd/views/user/profile.html'));
 }
 
-exports.profile = async (req, res) => {
+exports.profileGet = async (req, res) => {
     const userinfo = await User.findOne({
         where: { id: req.decoded.id }
     })

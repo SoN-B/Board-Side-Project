@@ -32,9 +32,9 @@ exports.boardPost = (req, res) => {
     });
 }
 
-exports.new = (req, res) => { res.render('post/new'); }
+exports.newView = (req, res) => { res.render('post/new'); }
 
-exports.boardById = (req, res) => {
+exports.boardView_id = (req, res) => {
     Post.findOne({ where: { id: req.params.id } })
     .then((data) => {
         Post.findOne({
@@ -54,7 +54,7 @@ exports.boardById = (req, res) => {
     });
 }
 
-exports.delete = (req, res) => {
+exports.boardDelete_id = (req, res) => {
     // let userid = req.decoded.id;
     // let contentid = req.body.id;
 
@@ -97,7 +97,7 @@ exports.delete = (req, res) => {
     });
 }
 
-exports.editGet = (req, res) => { 
+exports.editView_id = (req, res) => { 
     // let userid = req.decoded.id;
     // let contentid = req.params.id;
 
@@ -133,7 +133,7 @@ exports.editGet = (req, res) => {
         })
 }
 
-exports.editPost = (req, res) => {
+exports.boardEdit_id = (req, res) => {
     Post.update({
         title: req.body.title,
         content: req.body.content

@@ -1,8 +1,8 @@
 "use strict";
 
-exports.home = (req, res) => {
+exports.homeView = (req, res) => {
     res.render('home/welcome');
 }
-exports.about = (req, res) => {
+exports.aboutView = (req, res) => {
     res.render('home/about');
 }

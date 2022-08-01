@@ -5,7 +5,7 @@ const router = express.Router();
 
 const ctrl = require('./service');
 
-router.get("/", ctrl.home);
-router.get("/about", ctrl.about);
+router.get("/", ctrl.homeView);
+router.get("/about", ctrl.aboutView);
 
 module.exports = router;
