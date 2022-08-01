@@ -1,6 +1,6 @@
 > For Node.js server Practice (Sequelize(MySQL), JWT, bcrypt...)
 
-## 📝 API Reference
+### 📝 API Reference
 ## [home]
 
 GET / - 홈화면 랜더링
