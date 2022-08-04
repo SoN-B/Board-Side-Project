@@ -12,7 +12,16 @@ function profileAuth() {
     .then((res) => {
         if(res.code === 200) {
             location.href = "/user/profile/output?username="+res.data.username+"&email="+res.data.email;
-        } else {
+        } else if(res.message === "Token has expired."){ // 419
+            fetch("/user/token/refresh", {
+                headers: { 'authorization': localStorage.getItem('refresh_token') }
+                })
+                .then((res) => res.json())
+                .then((res) => {
+                    alert(res.message);
+                    localStorage.setItem('access_token', res.access_token);
+                })
+        } else { // 401
             alert(res.message);
             location.href = "/user/login";
         }
