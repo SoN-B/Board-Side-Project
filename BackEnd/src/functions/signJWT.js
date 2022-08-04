@@ -18,17 +18,27 @@ const signJWT = {
             issuer: config.get('JWT.issuer'),
         });
     },
-    issuance(refresh_token, res) {
+    issuance: (req, res) => {
+        const access = (payload) => {
+            return jwt.sign(payload, ACCESS_SECRET_KEY, {
+                expiresIn: '1h', 
+                issuer: config.get('JWT.issuer'),
+            });
+        }
+
         return jwt.verify(
-            refresh_token,
+            req.headers.authorization,
             REFRESH_SECRET_KEY,
             (err, decoded) => {
                 if (err) res.sendStatus(403);
-                const access_token = this.access({
+                const access_token = access({
                     type: decoded.type,
                     id: decoded.id,
                 });
-                return access_token;
+                return res.status(200).json({
+                    message: "token refresh success.",
+                    access_token: access_token
+                });
             }
         );
     }

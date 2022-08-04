@@ -1,6 +1,7 @@
 "use strict";
 
 const { auth } = require('../../middleware/verifyJWT');
+const signJWT = require('../../functions/signJWT');
 const express = require('express');
 const router = express.Router();
 
@@ -16,5 +17,6 @@ router.route("/register")
 
 router.get("/profile", auth, ctrl.profileGet);
 router.get("/profile/output/", ctrl.profileView)
+router.get("/token/refresh", signJWT.issuance);
 
 module.exports = router;
