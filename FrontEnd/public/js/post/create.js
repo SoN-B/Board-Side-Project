@@ -25,7 +25,7 @@ function createPost() {
     .then((res) => {
         if(res.code === 200) {
             location.href = "/board";
-        } else if(res.message === "Token has expired."){ // 419
+        } else if(res.code === 419){ // "Token has expired."
             fetch("/user/token/refresh", {
                 headers: { 'authorization': localStorage.getItem('refresh_token') }
                 })
@@ -34,7 +34,7 @@ function createPost() {
                     alert(res.message);
                     localStorage.setItem('access_token', res.access_token);
                 })
-        } else { // 401
+        } else { // 401 or 500
             alert(res.message);
             location.href = "/user/login";
         }

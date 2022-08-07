@@ -1,6 +1,7 @@
 "use strict";
 
 const { User } = require('../../utils/connect');
+const { Op }=require('sequelize');
 const signJWT = require('../../functions/signJWT');
 const md5 = require('md5');
 const path = require('path');
@@ -41,14 +42,26 @@ exports.registerView = (req, res) => { res.render("user/register"); }
 
 exports.registerPost = (req, res) => {
     let { email, password, username } = req.body;
-    User.findOne({ where: { email: email }}).then(( exist_verify ) => {
-        if ( exist_verify ) {
-            return res.status(405).json({
-                message: "Exist email.",
-                code: 405
-            });
+    User.findOne({ where: { [Op.or]: [{ email: email }, { username: username }] }})
+    .then(( data ) => {
+        let exist_data = JSON.stringify(data); // 객체(Object) -> JSON
+        exist_data = JSON.parse(exist_data); // JSON -> 객체(Object)
+
+        if ( exist_data !== null ) { // 찾는 데이터가 있을때
+            if ( exist_data.username === username ) {
+                return res.status(405).json({
+                    message: "Exist username.",
+                    code: 405
+                });
+            }
+            else {
+                return res.status(405).json({
+                    message: "Exist email.",
+                    code: 405
+                });
+            }
         }
-        else { // 찾는 이메일이 없을 경우 (중복 X)
+        else { // 찾는 이메일, 닉네임이 없을 경우 (중복 X)
             if ( username === "" ) {
                 return res.status(405).json({
                     message: "Please input username.",

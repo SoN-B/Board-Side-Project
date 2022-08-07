@@ -19,6 +19,9 @@ body {
 .board-table .date {
   width: 100px;
 }
+.board-table .Writer {
+  width: 500px;
+}
 
 .post-body{
   white-space: pre-line; /* 2 */
