@@ -4,6 +4,7 @@
 ## [home]
 
 GET / - 홈화면 랜더링
+
 GET /about - 홈페이지에 대한 설명페이지 랜더링
 
 ## [user]
@@ -21,6 +22,8 @@ GET /user/profile - 현재 로그인된 유저 인증후, 해당 유저정보 �
 
 GET /user/profile/output - views폴더안 profile html보내줌
 (profile html은 주소의 파라미터를 파싱해서 해당유저의 profile 랜더링)
+
+GET /user/token/refresh - refresh토큰받아서, access token 재발급
 
 ## [board]
 
