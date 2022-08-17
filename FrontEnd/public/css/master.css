@@ -16,11 +16,9 @@ body {
 .board-table {
   table-layout: fixed;
 }
+.board-table .Writer,
 .board-table .date {
   width: 100px;
-}
-.board-table .Writer {
-  width: 800px;
 }
 
 .post-body{
