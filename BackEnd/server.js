@@ -5,6 +5,7 @@ const express = require('express');
 const app = express();
 const { sequelize } = require('./src/utils/connect');
 
+const { swaggerUi, specs } = require('./src/modules/swagger');
 const bodyParser = require('body-parser');
 const config = require('config');
 
@@ -20,6 +21,7 @@ const apiRouter = require('./src/routes');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 app.use("/", apiRouter);
 
 //연결
