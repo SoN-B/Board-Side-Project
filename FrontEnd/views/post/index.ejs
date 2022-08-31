@@ -12,8 +12,8 @@
             <table class="board-table table table-sm border-bottom">
                 <thead class="thead-light">
                     <tr>
-                        <th scope="col" class="Writer">Title</th>
-                        <th scope="col">Writer</th>
+                        <th scope="col">Title</th>
+                        <th scope="col" class="Writer">Writer</th>
                         <th scope="col" class="date">Date</th>
                     </tr>
                 </thead>
@@ -25,14 +25,14 @@
                         <% } %>
                             <% posts.forEach(function(post) { %>
                                 <tr>
-                                    <td class="Writer">
+                                    <td>
                                         <a href="/board/<%= post.id %>">
                                             <div class="ellipsis">
                                                 <%= post.title %>
                                             </div>
                                         </a>
                                     </td>
-                                    <td>
+                                    <td class="Writer">
                                         <span>
                                             <%= post.User.username %>
                                         </span>
