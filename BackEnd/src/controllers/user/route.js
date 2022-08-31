@@ -22,9 +22,10 @@ const ctrl = require('./service');
  *       properties:
  *        email:
  *         type: string
+ *         description: 사용자 ID (email type)
  *        password:
  *         type: string
- *
+ *         description: 사용자 PW
  *    responses:
  *     200:
  *      description: Authorize success.

@@ -8,25 +8,21 @@ const ctrl = require('./service');
 
 /**
  * @swagger
+ * paths:
  *  /:
  *    get:
  *      summary: Show home page
  *      tags: [Home]
- *      responses:
- *        "200":
- *          description: Show home page success
  */
 router.get("/", ctrl.homeView);
 
 /**
  * @swagger
+ * paths:
  *  /about:
  *    get:
  *      summary: Show home page's about
  *      tags: [Home]
- *      responses:
- *        "200":
- *          description: Show home page's about success
  */
 router.get("/about", ctrl.aboutView);
 
