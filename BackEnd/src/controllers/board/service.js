@@ -65,7 +65,6 @@ exports.boardPost = (req, res) => {
     Post.create({
         title: title,
         content: content,
-        hit: 0,
         view: 0,
         userkey: userkey
     }).then(() => {

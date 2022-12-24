@@ -1,7 +1,3 @@
-// public/js/script.js
-/*client의 브라우저에서 사용하게 될 JavaScript입니다. 
-그래서 public 폴더에 들어 있음*/
-
 $(function(){
     function get2digits (num){
         return ('0' + num).slice(-2);

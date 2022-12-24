@@ -7,35 +7,35 @@
 
 <body>
     <%- include('../partials/nav') %>
-        <div class="container mb-3">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb p-1 pl-2 pr-2">
-                    <li class="breadcrumb-item"><a href="/">Home</a></li>
-                    <li class="breadcrumb-item"><a href="/board">Board</a></li>
-                    <li class="breadcrumb-item"><a href="/board/<%= post.id %>">
-                            <%= post.title %>
-                        </a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Edit Post</li>
-                </ol>
-            </nav>
+    <div class="container mb-3">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb p-1 pl-2 pr-2">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item"><a href="/board">Board</a></li>
+                <li class="breadcrumb-item"><a href="/board/<%= post.id %>">
+                        <%= post.title %>
+                    </a></li>
+                <li class="breadcrumb-item active" aria-current="page">Edit Post</li>
+            </ol>
+        </nav>
 
-            <form>
-                <div class="form-group">
-                    <label for="title">Title</label>
-                    <input type="text" id="title" name="title" value="<%= post.title %>" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="body">Body</label>
-                    <textarea id="body" name="body" rows="5" class="form-control"><%= post.content %></textarea>
-                </div>
-                <div>
-                    <a class="btn btn-secondary" href="/board/<%= post.id %><%= getPostQueryString() %>">Back</a>
-                    <button type="button" id="update" class="btn btn-secondary">Submit</button>
-                </div>
-            </form>
-        </div>
+        <form>
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" id="title" name="title" value="<%= post.title %>" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="body">Body</label>
+                <textarea id="body" name="body" rows="5" class="form-control"><%= post.content %></textarea>
+            </div>
+            <div>
+                <a class="btn btn-secondary" href="/board/<%= post.id %><%= getPostQueryString() %>">Back</a>
+                <button type="button" id="update" class="btn btn-secondary">Submit</button>
+            </div>
+        </form>
+    </div>
 
-        <script src="/js/post/update.js" defer></script>
+    <script src="/js/post/update.js" defer></script>
 </body>
 
 </html>

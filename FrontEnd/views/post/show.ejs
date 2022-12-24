@@ -9,97 +9,97 @@
 
 <body>
     <%- include('../partials/nav') %>
-        <div class="container mb-3">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb p-1 pl-2 pr-2">
-                    <li class="breadcrumb-item"><a href="/">Home</a></li>
-                    <li class="breadcrumb-item"><a href="/board">Board</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">
-                        <%= post.title %>
-                    </li>
-                </ol>
-            </nav>
-
-            <div class="card">
-                <h5 class="card-header p-2">
+    <div class="container mb-3">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb p-1 pl-2 pr-2">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item"><a href="/board">Board</a></li>
+                <li class="breadcrumb-item active" aria-current="page">
                     <%= post.title %>
-                </h5>
-                <div class="row">
-                    <div class="col-md-7 col-lg-8 col-xl-9 order-sm-2 order-md-1">
-                        <div class="post-body p-2">
-                            <%= post.content %>
-                        </div>
+                </li>
+            </ol>
+        </nav>
+
+        <div class="card">
+            <h5 class="card-header p-2">
+                <%= post.title %>
+            </h5>
+            <div class="row">
+                <div class="col-md-7 col-lg-8 col-xl-9 order-sm-2 order-md-1">
+                    <div class="post-body p-2">
+                        <%= post.content %>
                     </div>
-                    <div class="col-md-5 col-lg-4 col-xl-3 order-sm-1 order-md-2">
-                        <div class="post-info card m-2 p-2">
-                            <div>
-                                <div><span>Writer</span> : <span><%= post.User.username %></span></div>
-                                <div><span>Views</span> : <span><%= post.view %></span></div>
-                            </div>
-                            <div><span>Created</span> : <span data-date-time="<%= post.createdAt %>"></span></div>
-                            <% if(post.updatedAt) { %>
-                                <div><span>Updated</span> : <span data-date-time="<%= post.updatedAt %>"></span></div>
-                            <% } %>
+                </div>
+                <div class="col-md-5 col-lg-4 col-xl-3 order-sm-1 order-md-2">
+                    <div class="post-info card m-2 p-2">
+                        <div>
+                            <div><span>Writer</span> : <span><%= post.User.username %></span></div>
+                            <div><span>Views</span> : <span><%= post.view %></span></div>
                         </div>
+                        <div><span>Created</span> : <span data-date-time="<%= post.createdAt %>"></span></div>
+                        <% if(post.updatedAt) { %>
+                            <div><span>Updated</span> : <span data-date-time="<%= post.updatedAt %>"></span></div>
+                        <% } %>
                     </div>
                 </div>
             </div>
-
-            <div class="mt-3">
-                <form name="method_form" id="insert_1" action="/board/<%= post.id %>" method="post">
-                    <a class="btn btn-secondary" href="/board<%= getPostQueryString() %>">Back</a>
-                </form>
-            </div>
         </div>
 
-        <script>
-            const owner = `
-                <a class="btn btn-secondary" href="/board/<%= post.id %>/edit<%= getPostQueryString() %>">Edit</a>
-                <button type="button" onclick="excute()" class="btn btn-secondary">Delete</button>
-            `
+        <div class="mt-3">
+            <form name="method_form" id="insert_1" action="/board/<%= post.id %>" method="post">
+                <a class="btn btn-secondary" href="/board<%= getPostQueryString() %>">Back</a>
+            </form>
+        </div>
+    </div>
 
-            let urlStr = window.location.href;
-            let words = urlStr.split('/');
-            let contentid;
+    <script>
+        const owner = `
+            <a class="btn btn-secondary" href="/board/<%= post.id %>/edit<%= getPostQueryString() %>">Edit</a>
+            <button type="button" onclick="excute()" class="btn btn-secondary">Delete</button>
+        `
 
-            if(words[4].indexOf('?')) {
-                words = words[4].split('?');
-                contentid = words[0];
-            } else {
-                contentid = words[4];
-            }
+        let urlStr = window.location.href;
+        let words = urlStr.split('/');
+        let contentid;
 
-            window.onload = function () { // 항상 실행
-                fetch(`/board/${contentid}/auth`, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'authorization': localStorage.getItem('access_token')
+        if(words[4].indexOf('?')) {
+            words = words[4].split('?');
+            contentid = words[0];
+        } else {
+            contentid = words[4];
+        }
+
+        window.onload = function () { // 항상 실행
+            fetch(`/board/${contentid}/auth`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': localStorage.getItem('access_token')
+                }
+            })
+                .then((res) => res.json())
+                .then((res) => {
+                    if (res.code === 200) { $('#insert_1').append(owner); }
+                    else if (res.code === 419) { // "Token has expired."
+                        fetch("/user/token/refresh", {
+                            headers: { 'authorization': localStorage.getItem('refresh_token') }
+                        })
+                            .then((res) => res.json())
+                            .then((res) => {
+                                alert(res.message);
+                                localStorage.setItem('access_token', res.access_token);
+                            })
                     }
                 })
-                    .then((res) => res.json())
-                    .then((res) => {
-                        if (res.code === 200) { $('#insert_1').append(owner); }
-                        else if (res.code === 419) { // "Token has expired."
-                            fetch("/user/token/refresh", {
-                                headers: { 'authorization': localStorage.getItem('refresh_token') }
-                            })
-                                .then((res) => res.json())
-                                .then((res) => {
-                                    alert(res.message);
-                                    localStorage.setItem('access_token', res.access_token);
-                                })
-                        }
-                    })
-            }
+        }
 
-            function excute() {
-                if (confirm("Are you sure want to delete this post?")) {
-                    alert("Delete post success.");
-                    document.method_form.submit();
-                } else { alert("Delete post cancle."); }
-            }
-        </script>
-        <script src="/js/post/date.js" defer></script>
+        function excute() {
+            if (confirm("Are you sure want to delete this post?")) {
+                alert("Delete post success.");
+                document.method_form.submit();
+            } else { alert("Delete post cancle."); }
+        }
+    </script>
+    <script src="/js/post/date.js" defer></script>
 </body>
 
 </html>
