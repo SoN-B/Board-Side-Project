@@ -47,15 +47,15 @@
 
             <div class="mt-3">
                 <form name="method_form" id="insert_1" action="/board/<%= post.id %>" method="post">
-                    <a class="btn btn-primary" href="/board<%= getPostQueryString() %>">Back</a>
+                    <a class="btn btn-secondary" href="/board<%= getPostQueryString() %>">Back</a>
                 </form>
             </div>
         </div>
 
         <script>
             const owner = `
-                <a class="btn btn-primary" href="/board/<%= post.id %>/edit<%= getPostQueryString() %>">Edit</a>
-                <button type="button" onclick="excute()" class="btn btn-primary">Delete</button>
+                <a class="btn btn-secondary" href="/board/<%= post.id %>/edit<%= getPostQueryString() %>">Edit</a>
+                <button type="button" onclick="excute()" class="btn btn-secondary">Delete</button>
             `
 
             let urlStr = window.location.href;
