@@ -30,7 +30,13 @@ body {
   text-align: center;
 }
 
-.post-body {
+.board-table .title-container:hover .title-comments,
+.board-table .title-container:hover .title-text {
+  text-decoration: underline;
+}
+
+.post-body,
+.comment-body {
   white-space: pre-line;
 }
 
@@ -42,8 +48,37 @@ body {
   width: 400px;
 }
 
-.btn-link {
-  font-weight: 400;
-  color: rgba(0, 0, 0, .5);
-  background-color: transparent;
+.post-index-tool {
+  max-width: 450px;
+}
+
+.post-index-tool input[type='text'] {
+  max-width: 130px;
+}
+
+.highlighted {
+  color: rgb(26, 190, 26);
+}
+
+a {
+  color: rgb(0, 0, 0);
+  font-weight: bold;
+}
+
+.page-link {
+  color: #6c757d;
+}
+
+.page-item.active .page-link {
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+
+.comment-edit,
+.comment-edit-enabled .comment-show {
+  display: none;
+}
+
+.comment-edit-enabled .comment-edit {
+  display: inherit;
 }
