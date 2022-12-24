@@ -29,7 +29,7 @@
                     <textarea id="body" name="body" rows="5" class="form-control"><%= post.content %></textarea>
                 </div>
                 <div>
-                    <a class="btn btn-primary" href="/board/<%= post.id %>">Back</a>
+                    <a class="btn btn-primary" href="/board/<%= post.id %><%= getPostQueryString() %>">Back</a>
                     <button type="button" id="update" class="btn btn-primary">Submit</button>
                 </div>
             </form>

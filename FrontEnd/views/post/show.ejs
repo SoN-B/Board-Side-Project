@@ -32,36 +32,45 @@
                     </div>
                     <div class="col-md-5 col-lg-4 col-xl-3 order-sm-1 order-md-2">
                         <div class="post-info card m-2 p-2">
-                            <div><span>Writer</span> : <span>
-                                    <%= post.User.username %>
-                                </span></div>
+                            <div>
+                                <div><span>Writer</span> : <span><%= post.User.username %></span></div>
+                                <div><span>Views</span> : <span><%= post.view %></span></div>
+                            </div>
                             <div><span>Created</span> : <span data-date-time="<%= post.createdAt %>"></span></div>
                             <% if(post.updatedAt) { %>
                                 <div><span>Updated</span> : <span data-date-time="<%= post.updatedAt %>"></span></div>
-                                <% } %>
+                            <% } %>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="mt-3">
-                <form name="method_form" id="insert_1" action="/board/<%= post.id %>" method="post"></form>
+                <form name="method_form" id="insert_1" action="/board/<%= post.id %>" method="post">
+                    <a class="btn btn-primary" href="/board<%= getPostQueryString() %>">Back</a>
+                </form>
             </div>
         </div>
 
         <script>
             const owner = `
-                <a class="btn btn-primary" href="/board">Back</a>
-                <a class="btn btn-primary" href="/board/<%= post.id %>/edit">Edit</a>
+                <a class="btn btn-primary" href="/board/<%= post.id %>/edit<%= getPostQueryString() %>">Edit</a>
                 <button type="button" onclick="excute()" class="btn btn-primary">Delete</button>
             `
-            const no_owner = `<a class="btn btn-primary" href="/board">Back</a>`
 
             let urlStr = window.location.href;
-            let contentid = urlStr.split('/');
+            let words = urlStr.split('/');
+            let contentid;
+
+            if(words[4].indexOf('?')) {
+                words = words[4].split('?');
+                contentid = words[0];
+            } else {
+                contentid = words[4];
+            }
 
             window.onload = function () { // 항상 실행
-                fetch(`/board/${contentid[4]}/auth`, {
+                fetch(`/board/${contentid}/auth`, {
                     headers: {
                         'Content-Type': 'application/json',
                         'authorization': localStorage.getItem('access_token')
@@ -78,10 +87,8 @@
                                 .then((res) => {
                                     alert(res.message);
                                     localStorage.setItem('access_token', res.access_token);
-                                    $('#insert_1').append(no_owner);
                                 })
                         }
-                        else { $('#insert_1').append(no_owner); }
                     })
             }
 

@@ -14,6 +14,7 @@
                     <tr>
                         <th scope="col" class="Id">#</th>
                         <th scope="col">Title</th>
+                        <th scope="col" class="views">Views</th>
                         <th scope="col" class="Writer">Writer</th>
                         <th scope="col" class="date">Date</th>
                     </tr>
@@ -34,6 +35,7 @@
                                     </div>
                                 </a>
                             </td>
+                            <td class="views"><%= post.view %></td>
                             <td class="Writer">
                                 <a href="/board<%= getPostQueryString(false, { searchType:'author!', searchText:post.User.username }) %>">
                                     <div data-search-highlight="author" class="ellipsis"><%= post.User ? post.User.username : "" %></div>
