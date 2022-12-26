@@ -1,13 +1,31 @@
-> For Node.js server Practice (Sequelize(MySQL), JWT, bcrypt...)
+# Board 사이드 프로젝트
 
-### 📝 API Reference
-## [home]
+>**목적** : 개인 사이드 프로젝트를 통하여, 배운 내용을 바로 적용시켜 보거나, 추가적인 공부를 위한 용도
+
+- [MongoDB Board](https://github.com/SoN-B/Node.JS-Board) 개인 스터디 내용을 활용하여, MySQL 시스템으로 전환
+- Passport 로그인 방식 -> JWT 로그인 방식으로 전환
+- Bootstrap 4.0을 활용한 페이지 구성 & 프론트와 백엔드의 통신과정 이해
+
+## 📚 Contents
+
+- [Features](#Features)
+- [API Reference](#API-Reference)
+- [Execution Screens](#Execution-Screens)
+- [Module](#Dependency-Module)
+
+## ⚙ Features
+
+## 📝 API Reference
+
+>**HOME**
 
 **GET** / - 홈 화면 렌더링
 
 **GET** /about - 홈페이지에 대한 설명 페이지 렌더링
 
-## [user]
+<br>
+
+>**USER**
 
 **GET** /user/login - 로그인 페이지 렌더링
 
@@ -87,7 +105,9 @@
 
 **GET** /user/token/refresh - refresh 토큰 받아서, access token 재발급
 
-## [board]
+<br>
+
+>**BOARD**
 
 <details>
 
@@ -182,3 +202,22 @@
   * 그 후, 해당 글 페이지의 [back] or [back, edit, delete] button 출력여부 결정
 
 </details>
+
+## 💻 Execution Screens
+
+## 🛠 Dependency Module
+
+```
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.20.0",
+    "config": "^3.3.7",
+    "ejs": "^3.1.8",
+    "express": "^4.18.1",
+    "jsonwebtoken": "^8.5.1",
+    "md5": "^2.3.0",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.21.3",
+    "sequelize-cli": "^6.4.1"
+  }
+```
