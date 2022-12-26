@@ -8,10 +8,10 @@
 
 ## 📚 Contents
 
-- [Features](#⚙-Features)
-- [API Reference](#📝-API-Reference)
-- [Execution Screens](#💻-Execution-Screens)
-- [Module](#🛠-Dependency-Module)
+- [Features](#-Features)
+- [API Reference](#-API-Reference)
+- [Execution Screens](#-Execution-Screens)
+- [Module](#-Dependency-Module)
 
 ## ⚙ Features
 
