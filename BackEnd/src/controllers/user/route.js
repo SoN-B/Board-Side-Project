@@ -1,7 +1,9 @@
 "use strict";
 
 const { auth } = require('../../middleware/verifyJWT');
+
 const signJWT = require('../../functions/signJWT');
+
 const express = require('express');
 const router = express.Router();
 

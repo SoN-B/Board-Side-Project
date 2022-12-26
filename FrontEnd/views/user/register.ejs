@@ -8,29 +8,29 @@
 <body>
     <%- include('../partials/nav') %>
 
-        <div class="container mb-3">
-            <h3 class="contentBoxTop mb-3">Sign Up</h3>
+    <div class="container mb-3">
+        <h3 class="contentBoxTop mb-3">Sign Up</h3>
 
-            <form>
-                <div class="mb-3">
-                    <label for="username" class="form-label">Username</label>
-                    <input type="username" class="form-control" id="username" placeholder="Input username">
-                </div>
-                <div class="mb-3">
-                    <label for="email" class="form-label">Id (email)</label>
-                    <input type="email" class="form-control" id="email" placeholder="Input email"
-                        aria-describedby="emailHelp">
-                    <div id="emailHelp" class="form-text">※ Id must be email type ※</div>
-                </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" placeholder="Input password">
-                </div>
-                <button type="button" class="btn btn-primary" id="button">Submit</button>
-            </form>
-        </div>
+        <form>
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="username" class="form-control" id="username" placeholder="Input username">
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Id (email)</label>
+                <input type="email" class="form-control" id="email" placeholder="Input email"
+                    aria-describedby="emailHelp">
+                <div id="emailHelp" class="form-text">※ Id must be email type ※</div>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" placeholder="Input password">
+            </div>
+            <button type="button" class="btn btn-secondary" id="button">Submit</button>
+        </form>
+    </div>
 
-        <script src="/js/user/register.js" defer></script>
+    <script src="/js/user/register.js" defer></script>
 </body>
 
 </html>

@@ -7,6 +7,7 @@ update_post.addEventListener("click", updatePost);
 function updatePost() {
     let urlStr = window.location.href;
     let contentid = urlStr.split('/');
+    let query = urlStr.split('?');
 
     if(!title.value) return alert("Please input title.");
     if(!body.value) return alert("Please input body.");
@@ -29,7 +30,7 @@ function updatePost() {
     .then((res) => {
         if(res.code === 200) {
             alert("Update success.")
-            location.href = `/board/${contentid[4]}`;
+            location.href = `/board/${contentid[4]}?` + query[1];
         } else return alert(res.message);
     })
 }

@@ -3,15 +3,56 @@
 const { Post } = require('../../utils/connect');
 const { User } = require('../../utils/connect');
 
-exports.boardGet = (req, res) => {
-    Post.findAll({
+var { createSearchQuery } = require("../../functions/util");
+
+const { Op } = require('sequelize');
+
+exports.boardGet = async (req, res) => {
+    let { page, limit } = req.query;
+    let where_content = null, where_user = null;
+
+    page = !isNaN(page)?page:1;
+    limit = !isNaN(limit)?limit:10;
+
+    let key;
+    let searchQuery = await createSearchQuery(req.query);
+    if(searchQuery.length > 0) key = Object.keys(searchQuery[0]);
+
+    if ( searchQuery.length === 2 ) {
+        where_content = {
+            [Op.or]: [
+                { title: {[Op.like]: '%'+searchQuery[0].title+'%'}},
+                { content: {[Op.like]: '%'+searchQuery[1].body+'%'}}
+            ]
+        };
+    } else if ( searchQuery.length === 1 && key[0] === 'title') {
+        where_content = { title: {[Op.like]: '%'+searchQuery[0].title+'%'}};
+    }  else if ( searchQuery.length === 1 && key[0] === 'body') {
+        where_content = { content: {[Op.like]: '%'+searchQuery[0].body+'%'}};
+    } else if ( searchQuery.length === 1 && key[0] === 'username') {
+        where_user = { username: searchQuery[0].username };
+    }
+
+    Post.findAndCountAll({
         include: [{
             model: User,
+            required: true, // associated model이 존재하는 객체만을 Return
             attributes: ['username'],
+            where: where_user
         }],
-        order: [['createdAt', 'DESC']]
+        where: where_content,
+        order: [['createdAt', 'DESC']],
+        limit: Math.max(1, parseInt(limit)),
+        offset: (Math.max(1, parseInt(page)) - 1) * Math.max(1, parseInt(limit))
     }).then((data) => {
-        res.render('post/index', {posts: data});
+        res.render('post/index', {
+            posts: data.rows,
+            currentPage: page,
+            maxPage: Math.ceil(data.count / Math.max(1, parseInt(limit))),
+            limit: limit,
+            searchType: req.query.searchType,
+            searchText: req.query.searchText,
+        });
     }).catch((err) => {
         return res.status(500).json({ err });
     });
@@ -24,7 +65,6 @@ exports.boardPost = (req, res) => {
     Post.create({
         title: title,
         content: content,
-        hit: 0,
         view: 0,
         userkey: userkey
     }).then(() => {
@@ -54,24 +94,14 @@ exports.boardView_id = (req, res) => {
     }).catch(() => {
         return res.status(500).json({ code: 500 });
     });
+
+    Post.increment({ view: 1 }, { where: {id: {[ Op.eq ]: req.params.id }}});
 }
 
 exports.boardDelete_id = (req, res) => {
     Post.destroy({where: { id: req.params.id }})
     .then(() => {
-        Post.findAll({
-            include: [{
-                model: User,
-                attributes: ['username'],
-            }],
-            order: [['createdAt', 'DESC']]
-        }).then((data) => {
-            res.render('post/index', {posts: data});
-        }).catch((err) => {
-            return res.status(500).json({
-                err
-            });
-        });  
+        res.redirect("/board" + res.locals.getPostQueryString(false, { page: 1, searchText: "" }));
     })
     .catch(() => {
         return res.status(500).json({ code: 500 });

@@ -2,8 +2,10 @@
 
 const { User } = require('../../utils/connect');
 const { Op }=require('sequelize');
+
 const signJWT = require('../../functions/signJWT');
 const md5 = require('md5');
+
 const path = require('path');
 
 exports.loginView = (req, res) => { res.render("user/login"); }
