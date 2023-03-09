@@ -11,7 +11,7 @@ const options = {
             version: '1.0.0',
             description: 'Test API with express',
         },
-        host: 'localhost:3001',
+        host: 'localhost:5000',
         basePath: '/'
     },
     apis: ['./src/controllers/*/route.js']
