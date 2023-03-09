@@ -29,7 +29,7 @@ app.listen(config.get('server.port'), () => { // 서버 연결
     console.log(`Server Running on ${config.get('server.port')} Port!`);
 });
 
-sequelize.sync({ force: false }) // DB 연결
+sequelize.sync({ force: false })
     // force : true, alter : true (모델 테이블 재생성시 db반영)
     // force -> 기존 데이터 날아감, alter -> 유지하면서 업데이트
     .then(() => {
