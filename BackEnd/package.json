@@ -19,7 +19,8 @@
     "md5": "^2.3.0",
     "mysql2": "^2.3.3",
     "sequelize": "^6.21.3",
-    "sequelize-cli": "^6.4.1"
+    "sequelize-cli": "^6.4.1",
+    "swagger-autogen": "^2.22.0"
   },
   "devDependencies": {
     "swagger-jsdoc": "^6.2.5",
