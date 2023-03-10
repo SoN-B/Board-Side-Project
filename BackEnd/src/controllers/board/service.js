@@ -3,6 +3,9 @@
 const { Post } = require('../../utils/connect');
 const { User } = require('../../utils/connect');
 
+const model = require('../../utils/connect');
+const PostRecommand = model.sequelize.models.PostRecommand;
+
 var { createSearchQuery } = require("../../functions/util");
 
 const { Op } = require('sequelize');
@@ -143,4 +146,90 @@ exports.auth = (req, res) => {
             return res.status(500).json({ code: 500 });
         }
     });
+}
+
+exports.boardRecommand = (req, res) => {
+    let userid = req.decoded.id;
+    let contentid = req.params.id;
+
+    PostRecommand.findOne({
+        where: {[Op.and]: [
+            { UserId: userid },
+            { PostId: contentid },
+        ]}
+    }).then((data) => {
+        if(data !== null) { // 추천 O
+            Post.findOne({ 
+                attributes: ['recommand'],
+                where: { id: contentid }
+            }).then((data) => {
+                try {
+                    Post.update({ recommand: --data.recommand, }, {
+                        where: { id: contentid },
+                    })
+        
+                    PostRecommand.destroy({
+                        where: {[Op.and]: [
+                            { UserId: userid },
+                            { PostId: contentid },
+                        ]}
+                    })
+        
+                    return res.status(200).json({ 
+                        code: 200,
+                        message: "delete"
+                    });
+                } catch(error) {
+                    return res.status(500).json({ code: 500 });
+                }
+            });
+        } else { // 추천 X
+            Post.findOne({ 
+                attributes: ['recommand'],
+                where: { id: contentid }
+            }).then((data) => {
+                try {
+                    Post.update({ recommand: ++data.recommand, }, {
+                        where: { id: contentid },
+                    })
+        
+                    PostRecommand.create({
+                        UserId: userid,
+                        PostId: contentid,
+                    })
+        
+                    return res.status(200).json({ 
+                        code: 200,
+                        message: "create"
+                    });
+                } catch(error) {
+                    return res.status(500).json({ code: 500 });
+                }
+            });
+        }
+    })
+}
+
+exports.boardRecommandCheck = (req, res) => {
+    let userid = req.decoded.id;
+    let contentid = req.params.id;
+
+    PostRecommand.findOne({
+        where: {[Op.and]: [
+            { UserId: userid },
+            { PostId: contentid },
+        ]}
+    }).then((data) => {
+        if(data !== null) { // 추천 O
+            return res.status(200).json({ 
+                code: 200,
+                message: "created"
+            });
+        } else { // 추천 X
+            return res.status(200).json({ 
+                code: 200,
+                message: "deleted"
+            });
+        }
+    })
 }
