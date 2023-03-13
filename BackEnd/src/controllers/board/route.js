@@ -23,4 +23,8 @@ router.route("/:id/edit")
 
 router.get("/:id/auth", auth, ctrl.auth)
 
+router.route("/:id/recommand")
+    .get(auth, ctrl.boardRecommandCheck)
+    .post(auth, ctrl.boardRecommand)
+    
 module.exports = router;

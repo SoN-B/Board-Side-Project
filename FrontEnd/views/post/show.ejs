@@ -35,12 +35,16 @@
                         <div>
                             <div><span>Writer</span> : <span><%= post.User.username %></span></div>
                             <div><span>Views</span> : <span><%= post.view %></span></div>
+                            <div><span>Recommand</span> : <span><%= post.recommand %></span></div>
                         </div>
                         <div><span>Created</span> : <span data-date-time="<%= post.createdAt %>"></span></div>
                         <% if(post.updatedAt) { %>
                             <div><span>Updated</span> : <span data-date-time="<%= post.updatedAt %>"></span></div>
                         <% } %>
                     </div>
+                    <form>
+                        <button style="margin: 5px 5px; float: right;" type="button" onclick="recommand()" class="btn btn-secondary" id="insert_2">추천</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -57,6 +61,8 @@
             <a class="btn btn-secondary" href="/board/<%= post.id %>/edit<%= getPostQueryString() %>">Edit</a>
             <button type="button" onclick="excute()" class="btn btn-secondary">Delete</button>
         `
+
+        let rec = document.getElementById('insert_2');
 
         let urlStr = window.location.href;
         let words = urlStr.split('/');
@@ -92,11 +98,61 @@
                 })
         }
 
+        window.addEventListener('load', function() {
+            fetch(`/board/${contentid}/recommand`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': localStorage.getItem('access_token')
+                }
+            })
+                .then((res) => res.json())
+                .then((res) => {
+                    if (res.code === 200 && res.message === "created") { 
+                        rec.className = "btn btn-danger"
+                        rec.textContent = "추천취소"
+                    } else if(res.code === 200 && res.message === "deleted") {
+                        rec.className = "btn btn-success"
+                        rec.textContent = "추천하기"
+                    }
+                })
+        });
+
         function excute() {
             if (confirm("Are you sure want to delete this post?")) {
                 alert("Delete post success.");
                 document.method_form.submit();
             } else { alert("Delete post cancle."); }
+        }
+
+        function recommand() {
+            fetch(`/board/${contentid}/recommand`, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': localStorage.getItem('access_token')
+                }
+            })
+                .then((res) => res.json())
+                .then((res) => {
+                    if (res.code === 200 && res.message === "create") { 
+                        alert("Recommand success.");
+                        location.herf = `/board/${contentid}<%= getPostQueryString() %>` 
+                        window.location.reload();
+                    } else if (res.code === 200 && res.message === "delete") {
+                        alert("Recommand cancle success.");
+                        location.herf = `/board/${contentid}<%= getPostQueryString() %>` 
+                        window.location.reload();
+                    } else if (res.code === 419) {
+                        fetch("/user/token/refresh", {
+                            headers: { 'authorization': localStorage.getItem('refresh_token') }
+                        })
+                            .then((res) => res.json())
+                            .then((res) => {
+                                alert(res.message);
+                                localStorage.setItem('access_token', res.access_token);
+                            })
+                    }
+                })
         }
     </script>
     <script src="/js/post/date.js" defer></script>

@@ -24,6 +24,11 @@ module.exports = class Post extends Sequelize.Model {
                 view: {
                     type: Sequelize.INTEGER,
                     allowNull: false,
+                },
+                recommand: {
+                    type: Sequelize.INTEGER,
+                    allowNull: false,
+                    defaultValue: 0
                 }
             },
             {  // 테이블 자체에 대한 설정
@@ -40,5 +45,6 @@ module.exports = class Post extends Sequelize.Model {
 
     static associate(db) {
         db.Post.belongsTo(db.User, { foreignKey: 'userkey', targetKey: 'id', onDelete: 'cascade', onUpdate: 'cascade' });
+        db.Post.belongsToMany(db.User, { through: 'PostRecommand' });
     }
 };
