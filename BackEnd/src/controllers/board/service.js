@@ -4,7 +4,7 @@ const { Post } = require('../../utils/connect');
 const { User } = require('../../utils/connect');
 
 const model = require('../../utils/connect');
-const PostRecommand = model.sequelize.models.PostRecommand;
+const user_post = model.sequelize.models.user_post;
 
 var { createSearchQuery } = require("../../functions/util");
 
@@ -152,7 +152,7 @@ exports.boardRecommand = (req, res) => {
     let userid = req.decoded.id;
     let contentid = req.params.id;
 
-    PostRecommand.findOne({
+    user_post.findOne({
         where: {[Op.and]: [
             { UserId: userid },
             { PostId: contentid },
@@ -168,7 +168,7 @@ exports.boardRecommand = (req, res) => {
                         where: { id: contentid },
                     })
         
-                    PostRecommand.destroy({
+                    user_post.destroy({
                         where: {[Op.and]: [
                             { UserId: userid },
                             { PostId: contentid },
@@ -193,7 +193,7 @@ exports.boardRecommand = (req, res) => {
                         where: { id: contentid },
                     })
         
-                    PostRecommand.create({
+                    user_post.create({
                         UserId: userid,
                         PostId: contentid,
                     })
@@ -214,7 +214,7 @@ exports.boardRecommandCheck = (req, res) => {
     let userid = req.decoded.id;
     let contentid = req.params.id;
 
-    PostRecommand.findOne({
+    user_post.findOne({
         where: {[Op.and]: [
             { UserId: userid },
             { PostId: contentid },

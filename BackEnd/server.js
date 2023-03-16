@@ -23,7 +23,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/", apiRouter);
 
 //연결
-app.listen(config.get('server.port'), () => { // 서버 연결
+app.listen(config.get('server.port'), () => {
     console.log(`Server Running on ${config.get('server.port')} Port!`);
 });
 
