@@ -1,11 +1,12 @@
 {
   "name": "backend",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "release": "standard-version"
   },
   "author": "",
   "license": "ISC",
@@ -20,5 +21,8 @@
     "mysql2": "^2.3.3",
     "sequelize": "^6.21.3",
     "sequelize-cli": "^6.4.1"
+  },
+  "devDependencies": {
+    "standard-version": "^9.5.0"
   }
 }
