@@ -1,9 +1,9 @@
 "use strict";
 
-const { User } = require('../../utils/connect');
+const { User } = require('../utils/connect');
 const { Op }=require('sequelize');
 
-const signJWT = require('../../functions/signJWT');
+const signJWT = require('../functions/signJWT');
 const md5 = require('md5');
 
 const path = require('path');
@@ -103,7 +103,7 @@ exports.registerPost = (req, res) => {
 }
 
 exports.profileView = (req, res) => {
-    res.sendFile(path.join(__dirname, '../../../../FrontEnd/views/user/profile.html'));
+    res.sendFile(path.join(__dirname, '../../../FrontEnd/views/user/profile.html'));
 }
 
 exports.profileGet = async (req, res) => {

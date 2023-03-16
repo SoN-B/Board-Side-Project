@@ -1,13 +1,12 @@
 "use strict";
 
-const { auth } = require('../../middleware/verifyJWT');
-
-const signJWT = require('../../functions/signJWT');
+const { auth } = require('../middleware/verifyJWT');
+const signJWT = require('../functions/signJWT');
 
 const express = require('express');
 const router = express.Router();
 
-const ctrl = require('./service');
+const ctrl = require('../controllers/user');
 
 router.route("/login")
     .get(ctrl.loginView)
