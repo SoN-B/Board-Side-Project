@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const Sequelize = require('sequelize');
 
@@ -28,8 +28,8 @@ module.exports = class Post extends Sequelize.Model {
                 recommand: {
                     type: Sequelize.INTEGER,
                     allowNull: false,
-                    defaultValue: 0
-                }
+                    defaultValue: 0,
+                },
             },
             {
                 sequelize,
@@ -38,8 +38,8 @@ module.exports = class Post extends Sequelize.Model {
                 modelName: 'Post',
                 tableName: 'postinfo',
                 charset: 'utf8',
-                collate: 'utf8_general_ci'
-            }
+                collate: 'utf8_general_ci',
+            },
         );
     }
 

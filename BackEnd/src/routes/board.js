@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const { auth } = require('../middleware/verifyJWT');
 
@@ -7,24 +7,24 @@ const router = express.Router();
 
 const ctrl = require('../controllers/board');
 
-router.route("/")
+router.route('/')
     .get(ctrl.boardGet)
-    .post(auth, ctrl.boardPost)
+    .post(auth, ctrl.boardPost);
 
-router.get("/new", ctrl.newView)
+router.get('/new', ctrl.newView);
 
-router.route("/:id")
+router.route('/:id')
     .get(ctrl.boardView_id)
-    .post(ctrl.boardDelete_id)
+    .post(ctrl.boardDelete_id);
 
-router.route("/:id/edit")
+router.route('/:id/edit')
     .get(ctrl.editView_id)
-    .post(ctrl.boardEdit_id)
+    .post(ctrl.boardEdit_id);
 
-router.get("/:id/auth", auth, ctrl.auth)
+router.get('/:id/auth', auth, ctrl.auth);
 
-router.route("/:id/recommand")
+router.route('/:id/recommand')
     .get(auth, ctrl.boardRecommandCheck)
-    .post(auth, ctrl.boardRecommand)
-    
+    .post(auth, ctrl.boardRecommand);
+
 module.exports = router;

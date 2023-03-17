@@ -1,12 +1,12 @@
 "use strict"
 
-const { Post } = require('../utils/connect');
-const { User } = require('../utils/connect');
+const { Post } = require('../loaders/db');
+const { User } = require('../loaders/db');
 
-const model = require('../utils/connect');
+const model = require('../loaders/db');
 const user_post = model.sequelize.models.user_post;
 
-var { createSearchQuery } = require("../functions/util");
+var { createSearchQuery } = require("../functions/query");
 
 const { Op } = require('sequelize');
 

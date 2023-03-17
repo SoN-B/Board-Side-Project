@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const { auth } = require('../middleware/verifyJWT');
 const signJWT = require('../functions/signJWT');
@@ -8,16 +8,16 @@ const router = express.Router();
 
 const ctrl = require('../controllers/user');
 
-router.route("/login")
+router.route('/login')
     .get(ctrl.loginView)
-    .post(ctrl.loginPost)
+    .post(ctrl.loginPost);
 
-router.route("/register")
+router.route('/register')
     .get(ctrl.registerView)
-    .post(ctrl.registerPost)
+    .post(ctrl.registerPost);
 
-router.get("/profile", auth, ctrl.profileGet);
-router.get("/profile/output/", ctrl.profileView)
-router.get("/token/refresh", signJWT.issuance);
+router.get('/profile', auth, ctrl.profileGet);
+router.get('/profile/output/', ctrl.profileView);
+router.get('/token/refresh', signJWT.issuance);
 
 module.exports = router;

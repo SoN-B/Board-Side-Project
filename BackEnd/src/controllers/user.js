@@ -1,6 +1,6 @@
 "use strict";
 
-const { User } = require('../utils/connect');
+const { User } = require('../loaders/db');
 const { Op }=require('sequelize');
 
 const signJWT = require('../functions/signJWT');
