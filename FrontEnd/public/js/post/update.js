@@ -30,7 +30,7 @@ function updatePost() {
     .then((res) => {
         if(res.code === 200) {
             alert("Update success.")
-            location.href = `/board/${contentid[4]}?` + query[1];
+            query[1] === undefined ? location.href = `/board/${contentid[4]}` : location.href = `/board/${contentid[4]}?` + query[1] 
         } else return alert(res.message);
     })
 }
