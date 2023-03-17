@@ -39,7 +39,7 @@ exports.createSearchQuery = async (queries) => {
             postQueries.push({ body: queries.searchText });
         }
         if (searchTypes.indexOf('author!') >= 0) {
-            // 작성자의 username이 정확히 일치하는경우
+            // 작성자의 username이 정확히 일치하는 경우
             user = await User.findOne({ where: { username: queries.searchText } });
             if (user) postQueries.push({ username: user.username });
             else {
