@@ -14,11 +14,11 @@ module.exports = class Post extends Sequelize.Model {
                     primaryKey: true,
                 },
                 title: {
-                    type: Sequelize.STRING(255),
+                    type: Sequelize.TEXT,
                     allowNull: false,
                 },
                 content: {
-                    type: Sequelize.STRING(255),
+                    type: Sequelize.TEXT,
                     allowNull: false,
                 },
                 view: {
@@ -37,8 +37,8 @@ module.exports = class Post extends Sequelize.Model {
                 paranoid: true,
                 modelName: 'Post',
                 tableName: 'postinfo',
-                charset: 'utf8',
-                collate: 'utf8_general_ci',
+                charset: 'utf8mb4',
+                collate: 'utf8mb4_unicode_ci',
             },
         );
     }
