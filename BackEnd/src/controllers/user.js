@@ -120,3 +120,34 @@ exports.profileGet = async (req, res) => {
         data: userinfo,
     });
 };
+
+exports.profileEdit = (req, res) => {
+    let { username, email } = req.body;
+    let user_id = req.decoded.id;
+    let profile = req.file.location
+
+    try {
+        User.update({
+            username: username,
+            email: email,
+            profile : profile
+        }, {
+            where: { id: user_id },
+        }).then(() => {
+            User.findOne({
+                where: { id: user_id },
+            }).then((data) => {
+                return res.status(200).json({
+                    message: 'Profile Edit Success!',
+                    code: 200,
+                    data: data
+                });
+            })
+        })
+    } catch (err) {
+        return res.status(500).json({
+            message: 'Server error: ' + err.message,
+            code: 500
+        });
+    }
+};

@@ -8,9 +8,6 @@ const { sequelize } = require('./src/loaders/db');
 const bodyParser = require('body-parser');
 const config = require('config');
 
-// 라우팅
-const apiRouter = require('./src/routes');
-
 // 웹 세팅
 app.use(express.static('../FrontEnd/public'));
 app.set('views', '../FrontEnd/views');
@@ -18,6 +15,9 @@ app.set('view engine', 'ejs');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// 라우팅
+const apiRouter = require('./src/routes');
 
 app.use('/', apiRouter);
 

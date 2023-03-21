@@ -3,6 +3,8 @@
 const { auth } = require('../middleware/verifyJWT');
 const signJWT = require('../functions/signJWT');
 
+const upload = require("../middleware/multer");
+
 const express = require('express');
 const router = express.Router();
 
@@ -16,7 +18,10 @@ router.route('/register')
     .get(ctrl.registerView)
     .post(ctrl.registerPost);
 
-router.get('/profile', auth, ctrl.profileGet);
+router.route('/profile')
+    .get(auth, ctrl.profileGet)
+    .put(auth, upload.single("image"), ctrl.profileEdit);
+
 router.get('/profile/output/', ctrl.profileView);
 router.get('/token/refresh', signJWT.issuance);
 
