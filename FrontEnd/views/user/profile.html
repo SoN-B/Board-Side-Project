@@ -72,35 +72,98 @@
 
         <h3 class="contentBoxTop"><b>My Profile</b></h3>
 
-        <fieldset disabled>
-            <div class="form-group row">
-                <label for="name" class="col-sm-3 col-form-label">Name</label>
-                <div class="col-sm-9">
-                    <input class="form-control" type="text" id="username" name="username" value="">
-                    <script>
-                        const urlStr = window.location.href;;
-                        const url = new URL(urlStr);
-
-                        const urlParams = url.searchParams;
-
-                        const username = urlParams.get('username');
-                        const email = urlParams.get('email');
-
-                        $('input[name=username]').attr('value', username);
-                    </script>
+        <div class="form-row">
+            <div class="form-group col-3">
+                <div class="box">
+                    <img class="profile" name="profile" src="">
                 </div>
+                <form style="margin-top: 15px; display: none;" id="show" method="post" encType="multipart/form-data">
+                    <input type="file" name="test" id="test"/>
+                </form>
             </div>
-            <div class="form-group row">
-                <label for="email" class="col-sm-3 col-form-label">Email</label>
-                <div class="col-sm-9">
-                    <input class="form-control" type="text" id="email" name="email" value="">
-                    <script>
-                        $('input[name=email]').attr('value', email);
-                    </script>
-                </div>
+            <div class="form-group col-9">
+                <fieldset disabled>
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-3 col-form-label">Name</label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" id="username" name="username" value="">
+                            <script>
+                                const urlStr = window.location.href;;
+                                const url = new URL(urlStr);
+
+                                const urlParams = url.searchParams;
+
+                                const img = document.querySelector('img.profile');
+                                const username = urlParams.get('username');
+                                const email = urlParams.get('email');
+
+                                img.src = urlParams.get('profile');
+                                $('input[name=username]').attr('value', username);
+                            </script>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-3 col-form-label">Email</label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" id="email" name="email" value="">
+                            <script>
+                                $('input[name=email]').attr('value', email);
+                            </script>
+                        </div>
+                    </div>
+                </fieldset>
+                <form>
+                    <button style="margin: 5px 5px; float: right;" type="button"class="btn btn-secondary" id="editBtn">프로필 편집</button>
+                </form>
             </div>
-        </fieldset>
+        </div>
     </div>
+    <script>
+        const edit_button = document.querySelector("#editBtn");
+        const fieldset = document.querySelector('fieldset');
+        const form_show = document.getElementById('show');
+
+        edit_button.addEventListener("click", editProfile);
+
+        function editProfile() {
+            const isDisabled = fieldset.getAttribute('disabled') !== null;
+            if(isDisabled === true) { 
+                form_show.style.display = "block";
+                edit_button.innerText = "편집 완료";
+                fieldset.disabled = false;
+            } else {
+                let formData = new FormData();
+
+                formData.append("image", $("input[name=test]")[0].files[0]);
+                formData.append('username', document.getElementById("username").value);
+                formData.append('email', document.getElementById("email").value);
+
+                fetch("/user/profile", {
+                    method: "PUT",
+                    headers:{
+                        'authorization': localStorage.getItem('access_token')
+                    },
+                    body: formData
+                })
+                .then((res) => res.json())
+                .then((res) => {
+                    if(res.code === 200) {
+                        alert(res.message);
+                        document.getElementById("username").value = res.data.username;
+                        document.getElementById("email").value = res.data.email;
+                        img.src = res.data.profile;
+                    } else {
+                        alert(res.message);
+                        location.reload();
+                    }
+                })
+
+                form_show.style.display = "none";
+                edit_button.innerText = "프로필 편집";
+                fieldset.disabled = true;
+            } 
+        }
+    </script>
 </body>
 
 </html>

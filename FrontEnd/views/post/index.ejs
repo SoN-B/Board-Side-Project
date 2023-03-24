@@ -12,11 +12,13 @@
         <table class="board-table table table-sm border-bottom">
             <thead class="thead-light">
                 <tr>
-                    <th scope="col" class="Id">#</th>
-                    <th scope="col">Title</th>
-                    <th scope="col" class="views">Views</th>
-                    <th scope="col" class="Writer">Writer</th>
-                    <th scope="col" class="date">Date</th>
+                    <th scope="col" class="id">#</th>
+                    <th scope="col">제목</th>
+                    <th scope="col" class="views">조회수</th>
+                    <th scope="col" class="views">추천수</th>
+                    <th scope="col" class="profile">프로필</th>
+                    <th scope="col" class="writer">작성자</th>
+                    <th scope="col" class="date">작성일</th>
                 </tr>
             </thead>
             <tbody>
@@ -27,7 +29,7 @@
                 <% } %>
                 <% posts.forEach(function(post) { %>
                     <tr>
-                        <td class="Id"><%= post.id %></td>
+                        <td class="id"><%= post.id %></td>
                         <td>
                             <a href="/board/<%= post.id %><%= getPostQueryString() %>" class="title-container">
                                 <div data-search-highlight="title" class="title-ellipsis ellipsis float-left">
@@ -36,7 +38,9 @@
                             </a>
                         </td>
                         <td class="views"><%= post.view %></td>
-                        <td class="Writer">
+                        <td class="views"><%= post.recommand %></td>
+                        <td class="profile"><img src="<%= post.User.profile %>" width=25 height=25></td>
+                        <td class="writer">
                             <a href="/board<%= getPostQueryString(false, { searchType:'author!', searchText:post.User.username }) %>">
                                 <div data-search-highlight="author" class="ellipsis"><%= post.User ? post.User.username : "" %></div>
                             </a>
@@ -103,10 +107,10 @@
                     <label>Search</label>
                     <div class="input-group">
                         <select name="searchType" class="custom-select">
-                            <option value="title,body" <%= searchType=='title,body'?'selected':'' %>>Title, Body</option>
-                            <option value="title" <%= searchType=='title'?'selected':'' %>>Title</option>
-                            <option value="body" <%= searchType=='body'?'selected':'' %>>Body</option>
-                            <option value="author" <%= searchType=='author'?'selected':'' %>>Author</option>
+                            <option value="title,body" <%= searchType=='title,body'?'selected':'' %>>제목, 내용</option>
+                            <option value="title" <%= searchType=='title'?'selected':'' %>>제목</option>
+                            <option value="body" <%= searchType=='body'?'selected':'' %>>내용</option>
+                            <option value="author" <%= searchType=='author'?'selected':'' %>>작성자</option>
                             <!-- selected 속성은 페이지가 로드될 때 옵션 중에서 미리 선택되어지는 옵션 -->
                         </select>
                         <input minLength="3" type="text" name="searchText" value="<%= searchText %>">

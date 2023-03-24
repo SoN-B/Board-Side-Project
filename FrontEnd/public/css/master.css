@@ -18,13 +18,23 @@ body {
   table-layout: fixed;
 }
 
-.board-table .Id,
-.board-table .views {
+.board-table .id,
+.board-table .views,
+.board-table .recommand {
   width: 60px;
   text-align: center;
 }
 
-.board-table .Writer,
+.board-table .profile {
+  width: 80px;
+  text-align: center;
+}
+
+.board-table .writer {
+  width: 110px;
+  text-align: center;
+}
+
 .board-table .date {
   width: 100px;
   text-align: center;
@@ -79,11 +89,16 @@ a {
   border-color: #6c757d;
 }
 
-.comment-edit,
-.comment-edit-enabled .comment-show {
-  display: none;
+.box {
+  margin-top: 15px;
+  width: 200px;
+  height: 200px;
+  border-radius: 30%;
+  overflow: hidden;
 }
 
-.comment-edit-enabled .comment-edit {
-  display: inherit;
+.profile {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }

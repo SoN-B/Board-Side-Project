@@ -11,7 +11,7 @@ function profileAuth() {
     .then((res) => res.json())
     .then((res) => {
         if(res.code === 200) {
-            location.href = "/user/profile/output?username="+res.data.username+"&email="+res.data.email;
+            location.href = "/user/profile/output?username="+res.data.username+"&email="+res.data.email+"&profile="+res.data.profile;
         } else if(res.code === 419){ // "Token has expired."
             fetch("/user/token/refresh", {
                 headers: { 'authorization': localStorage.getItem('refresh_token') }
