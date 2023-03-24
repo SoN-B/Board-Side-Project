@@ -121,17 +121,57 @@ exports.profileGet = async (req, res) => {
     });
 };
 
-exports.profileEdit = (req, res) => {
+/**
+ * 사용자에게, username, email을 입력받아 프로필을 편집합니다.
+ *  - username, email이 다른 사용자가 사용하고 있을 시, 409 반환
+ *  - username, email 변동없을 시 편집 정상 수행
+ */
+exports.profileEdit = async (req, res) => {
     let { username, email } = req.body;
     let user_id = req.decoded.id;
-    let profile = req.file.location
+
+    const db_option = {
+        username,
+        email,
+        ...(req.file && { profile: req.file.location }),
+        // { profile: req.file.location } 객체가 req.file이 undefined이 아닌 경우에만 포함
+    };
+
+    if (req.file && !req.file.mimetype.startsWith('image/')) {
+        // mimetype이 image 형식이 아니라면 오류 처리 로직 실행
+        return res.status(400).json({
+            message: 'Profile type must be only image.',
+            code: 400
+        });
+    }
 
     try {
-        User.update({
-            username: username,
-            email: email,
-            profile : profile
-        }, {
+        const user = await User.findByPk(user_id);
+        if(username === user.username && email === user.email && req.file === undefined) {
+            return res.status(200).json({
+                message: 'Profile no change.',
+                code: 200,
+                data: user
+            });
+        }
+
+        const check_username = await User.findOne({ where: { username } });
+        if (check_username && check_username.username !== user.username) {
+            return res.status(409).json({
+                message: 'The username is already in use.',
+                code: 409,
+            });
+        }
+        
+        const check_email = await User.findOne({ where: { email } });
+        if (check_email && check_email.email !== user.email) {
+            return res.status(409).json({
+                message: 'The email is already in use.',
+                code: 409,
+            });
+        }
+
+        User.update(db_option, {
             where: { id: user_id },
         }).then(() => {
             User.findOne({
@@ -146,7 +186,7 @@ exports.profileEdit = (req, res) => {
         })
     } catch (err) {
         return res.status(500).json({
-            message: 'Server error: ' + err.message,
+            message: err.message,
             code: 500
         });
     }

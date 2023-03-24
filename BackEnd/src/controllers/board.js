@@ -42,7 +42,7 @@ exports.boardGet = async (req, res) => {
             {
                 model: User,
                 required: true, // associated model이 존재하는 객체만을 Return
-                attributes: ['username'],
+                attributes: ['username', 'profile'],
                 where: where_user,
             },
         ],

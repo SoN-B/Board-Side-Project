@@ -77,7 +77,7 @@
                 <div class="box">
                     <img class="profile" name="profile" src="">
                 </div>
-                <form style="margin-top: 15px;" method="post" encType="multipart/form-data">
+                <form style="margin-top: 15px; display: none;" id="show" method="post" encType="multipart/form-data">
                     <input type="file" name="test" id="test"/>
                 </form>
             </div>
@@ -121,12 +121,14 @@
     <script>
         const edit_button = document.querySelector("#editBtn");
         const fieldset = document.querySelector('fieldset');
+        const form_show = document.getElementById('show');
 
         edit_button.addEventListener("click", editProfile);
 
         function editProfile() {
             const isDisabled = fieldset.getAttribute('disabled') !== null;
             if(isDisabled === true) { 
+                form_show.style.display = "block";
                 edit_button.innerText = "편집 완료";
                 fieldset.disabled = false;
             } else {
@@ -150,9 +152,13 @@
                         document.getElementById("username").value = res.data.username;
                         document.getElementById("email").value = res.data.email;
                         img.src = res.data.profile;
+                    } else {
+                        alert(res.message);
+                        location.reload();
                     }
-                });
+                })
 
+                form_show.style.display = "none";
                 edit_button.innerText = "프로필 편집";
                 fieldset.disabled = true;
             } 

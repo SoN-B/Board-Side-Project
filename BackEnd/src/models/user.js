@@ -1,5 +1,7 @@
 'use strict';
 
+const config = require('config');
+
 const Sequelize = require('sequelize');
 
 module.exports = class User extends Sequelize.Model {
@@ -16,6 +18,7 @@ module.exports = class User extends Sequelize.Model {
                 profile: {
                     type: Sequelize.STRING(100),
                     allowNull: true,
+                    defaultValue: config.get('default.profile')
                 },
                 username: {
                     type: Sequelize.STRING(30),

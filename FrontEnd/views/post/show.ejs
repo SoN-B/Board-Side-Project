@@ -1,5 +1,3 @@
-<!-- views/posts/show.ejs -->
-
 <!DOCTYPE html>
 <html>
 
@@ -33,13 +31,13 @@
                 <div class="col-md-5 col-lg-4 col-xl-3 order-sm-1 order-md-2">
                     <div class="post-info card m-2 p-2">
                         <div>
-                            <div><span>Writer</span> : <span><%= post.User.username %></span></div>
-                            <div><span>Views</span> : <span><%= post.view %></span></div>
-                            <div><span>Recommand</span> : <span><%= post.recommand %></span></div>
+                            <div><span>작성자</span> : <span><%= post.User.username %></span></div>
+                            <div><span>조회수</span> : <span><%= post.view %></span></div>
+                            <div><span>추천수</span> : <span><%= post.recommand %></span></div>
                         </div>
-                        <div><span>Created</span> : <span data-date-time="<%= post.createdAt %>"></span></div>
+                        <div><span>작성일</span> : <span data-date-time="<%= post.createdAt %>"></span></div>
                         <% if(post.updatedAt) { %>
-                            <div><span>Updated</span> : <span data-date-time="<%= post.updatedAt %>"></span></div>
+                            <div><span>수정일</span> : <span data-date-time="<%= post.updatedAt %>"></span></div>
                         <% } %>
                     </div>
                     <form>
