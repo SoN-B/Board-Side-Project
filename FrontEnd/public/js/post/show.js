@@ -61,6 +61,11 @@ function excute() {
 }
 
 function recommand() {
+    if(!localStorage.getItem('access_token')) {
+        alert('Please login first.');
+        location.href = "/user/login";
+    }
+
     fetch(`/board/${contentid}/recommand`, {
         method: "POST",
         headers: {

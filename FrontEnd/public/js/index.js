@@ -2,11 +2,11 @@ const profile = document.querySelector("#profile");
 const logout = document.querySelector("#logout");
 
 profile.addEventListener("click", profileAuth);
-logout.addEventListener("click", logOut);
+if(logout) logout.addEventListener("click", logOut);
 
 function profileAuth() {
     fetch("/user/profile", {
-    headers: { 'authorization': localStorage.getItem('access_token') }
+        headers: { 'authorization': localStorage.getItem('access_token') }
     })
     .then((res) => res.json())
     .then((res) => {

@@ -25,6 +25,6 @@ router.get('/:id/auth', auth, ctrl.auth);
 
 router.route('/:id/recommand')
     .get(auth, ctrl.boardRecommandCheck)
-    .post(auth, ctrl.boardRecommand);
+    .post(auth, auth, ctrl.boardRecommand);
 
 module.exports = router;
