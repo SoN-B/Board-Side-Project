@@ -132,6 +132,7 @@ exports.boardEdit_id = (req, res) => {
         {
             title: req.body.title,
             content: req.body.content,
+            updatedAt: new Date(),
         },
         {
             where: { id: req.body.id },
