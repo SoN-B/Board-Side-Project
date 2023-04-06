@@ -154,9 +154,9 @@ exports.auth = (req, res) => {
         where: { id: contentid },
     }).then((data) => {
         if (userid === data.userkey) {
-            return res.status(200).json({ code: 200 });
+            return res.status(200).json({ code: 200, message: 'authorized'});
         } else {
-            return res.status(500).json({ code: 500 });
+            return res.status(200).json({ code: 200, message: 'unauthorized' });
         }
     });
 };
@@ -182,6 +182,7 @@ exports.boardRecommand = (req, res) => {
                         return res.status(200).json({
                             code: 200,
                             message: 'delete',
+                            data: data,
                         });
                     } catch (error) {
                         return res.status(500).json({ code: 500 });
@@ -201,6 +202,7 @@ exports.boardRecommand = (req, res) => {
                         return res.status(200).json({
                             code: 200,
                             message: 'create',
+                            data: data,
                         });
                     } catch (error) {
                         return res.status(500).json({ code: 500 });

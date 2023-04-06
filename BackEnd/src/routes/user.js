@@ -1,7 +1,7 @@
 'use strict';
 
 const { auth } = require('../middleware/verifyJWT');
-const signJWT = require('../functions/signJWT');
+const { issuanceToken } = require('../functions/signJWT');
 
 const upload = require("../middleware/multer");
 
@@ -23,6 +23,6 @@ router.route('/profile')
     .put(auth, upload.single("image"), ctrl.profileEdit);
 
 router.get('/profile/output/', ctrl.profileView);
-router.get('/token/refresh', signJWT.issuance);
+router.get('/token/refresh', issuanceToken);
 
 module.exports = router;

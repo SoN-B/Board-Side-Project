@@ -16,14 +16,14 @@ exports.auth = (req, res, next) => {
         if (error.name === 'TokenExpiredError') {
             return res.status(419).json({
                 code: 419,
-                message: 'Token has expired.',
+                message: 'Access token has expired.',
             });
         }
         // 토큰의 비밀키가 일치하지 않는 경우
         if (error.name === 'JsonWebTokenError') {
             return res.status(401).json({
                 code: 401,
-                message: 'Invalid token.',
+                message: 'Access token is invalid.',
             });
         }
     }

@@ -1,43 +1,43 @@
 'use strict';
 
 const jwt = require('jsonwebtoken');
+
 const config = require('config');
+
 const ACCESS_SECRET_KEY = config.get('JWT.access_secret_key');
 const REFRESH_SECRET_KEY = config.get('JWT.refresh_secret_key');
 
-const signJWT = {
-    access(payload) {
-        return jwt.sign(payload, ACCESS_SECRET_KEY, {
-            expiresIn: '1h',
-            issuer: config.get('JWT.issuer'),
-        });
-    },
-    refresh(payload) {
-        return jwt.sign(payload, REFRESH_SECRET_KEY, {
-            expiresIn: '180d',
-            issuer: config.get('JWT.issuer'),
-        });
-    },
-    issuance: (req, res) => {
-        const access = (payload) => {
-            return jwt.sign(payload, ACCESS_SECRET_KEY, {
-                expiresIn: '1h',
-                issuer: config.get('JWT.issuer'),
-            });
-        };
-
-        return jwt.verify(req.headers.authorization, REFRESH_SECRET_KEY, (err, decoded) => {
-            if (err) res.sendStatus(403);
-            const access_token = access({
-                type: decoded.type,
-                id: decoded.id,
-            });
-            return res.status(200).json({
-                message: 'token refresh success.',
-                access_token: access_token,
-            });
-        });
-    },
+const accessToken = (payload) => {
+    return jwt.sign(payload, ACCESS_SECRET_KEY, {
+        expiresIn: '5s',
+        issuer: config.get('JWT.issuer'),
+    });
 };
 
-module.exports = signJWT;
+const refreshToken = (payload) => {
+    return jwt.sign(payload, REFRESH_SECRET_KEY, {
+        expiresIn: '15s',
+        issuer: config.get('JWT.issuer'),
+    });
+};
+
+const issuanceToken = (req, res) => {
+    return jwt.verify(req.headers.authorization, REFRESH_SECRET_KEY, (err, decoded) => {
+        if (err) {
+            return res.status(419).json({
+                code: 419,
+                message: 'Refresh token is invalid. Please login again.',
+            });
+        }
+
+        const access_token = accessToken({ type: decoded.type, id: decoded.id });
+        return res.status(200).json({
+            message: 'Access token refresh success.',
+            access_token: access_token,
+        });
+    });
+};
+
+module.exports = {
+    accessToken, refreshToken, issuanceToken
+};

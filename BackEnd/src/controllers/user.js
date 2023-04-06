@@ -3,7 +3,7 @@
 const { User } = require('../loaders/db');
 const { Op } = require('sequelize');
 
-const signJWT = require('../functions/signJWT');
+const { accessToken, refreshToken } = require('../functions/signJWT');
 const md5 = require('md5');
 
 const path = require('path');
@@ -25,8 +25,8 @@ exports.loginPost = (req, res) => {
                 });
             } else {
                 // 비밀번호 맞음
-                let access_token = await signJWT.access({ type: 'JWT', id: user.id });
-                let refresh_token = await signJWT.refresh({ type: 'JWT', id: user.id });
+                let access_token = await accessToken({ type: 'JWT', id: user.id });
+                let refresh_token = await refreshToken({ type: 'JWT', id: user.id });
                 return res.status(200).json({
                     message: 'Authorize success.',
                     code: 200,
@@ -162,7 +162,7 @@ exports.profileEdit = async (req, res) => {
                 code: 409,
             });
         }
-        
+
         const check_email = await User.findOne({ where: { email } });
         if (check_email && check_email.email !== user.email) {
             return res.status(409).json({
