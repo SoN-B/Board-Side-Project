@@ -19,7 +19,7 @@ router.route('/:id')
 
 router.route('/:id/edit')
     .get(ctrl.editView_id)
-    .post(ctrl.boardEdit_id);
+    .post(auth, ctrl.boardEdit_id);
 
 router.get('/:id/auth', auth, ctrl.auth);
 

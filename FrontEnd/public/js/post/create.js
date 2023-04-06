@@ -1,8 +1,10 @@
-const title = document.querySelector("#title");
-const body = document.querySelector("#body");
-const create_post = document.querySelector("#create");
+'use strict';
 
-create_post.addEventListener("click", createPost);
+const title = document.querySelector("[name='title']");
+const body = document.querySelector("[name='body']");
+const create_btn = document.querySelector("#create_btn");
+
+create_btn.addEventListener("click", createPost);
 
 function createPost() {
     if(!title.value) return alert("Please input title.");
@@ -25,18 +27,28 @@ function createPost() {
     .then((res) => {
         if(res.code === 200) {
             location.href = "/board";
-        } else if(res.code === 419){ // "Token has expired."
+        } else if(res.code === 419){ // Access Token has expired.
             fetch("/user/token/refresh", {
-                headers: { 'authorization': localStorage.getItem('refresh_token') }
+                    headers: { 'authorization': localStorage.getItem('refresh_token') }
                 })
                 .then((res) => res.json())
                 .then((res) => {
-                    alert(res.message);
-                    localStorage.setItem('access_token', res.access_token);
+                    if(res.code === 419) {
+                        alert(res.message);
+                        localStorage.removeItem('access_token');
+                        localStorage.removeItem('refresh_token');
+                        window.location.href = "/user/login";
+                    } else {
+                        alert(res.message);
+                        localStorage.setItem('access_token', res.access_token);
+                    }
                 })
         } else { // 401 or 500
             alert(res.message);
             location.href = "/user/login";
         }
     })
+    .catch((err) => {
+        alert('An error occurred while processing your request. Please try again later.');
+    });
 }
