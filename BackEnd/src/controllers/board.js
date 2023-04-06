@@ -83,7 +83,7 @@ exports.boardPost = (req, res) => {
 };
 
 exports.newView = (req, res) => {
-    res.render('post/new');
+    res.render('post/create');
 };
 
 exports.boardView_id = (req, res) => {
@@ -98,7 +98,7 @@ exports.boardView_id = (req, res) => {
             ],
             where: { id: req.params.id },
         }).then((data) => {
-                res.render('post/show', { post: data });
+                res.render('post/read', { post: data });
         })
         .catch(() => {
             return res.status(500).json({ code: 500 });
@@ -123,7 +123,7 @@ exports.boardDelete_id = (req, res) => {
 
 exports.editView_id = (req, res) => {
     Post.findOne({ where: { id: req.params.id } }).then((data) => {
-        res.render('post/edit', { post: data });
+        res.render('post/update', { post: data });
     });
 };
 
