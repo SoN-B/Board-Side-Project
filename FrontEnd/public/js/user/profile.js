@@ -8,6 +8,13 @@ update_btn.addEventListener("click", updateProfile);
 
 function updateProfile() {
     const is_disabled = fieldset.getAttribute('disabled') !== null;
+
+    const username = document.getElementsByName("username")[0].value;
+    const email = document.getElementsByName("email")[0].value;
+
+    if(!username) return alert("Please input username.");
+    if(!email) return alert("Please input email.");
+
     if(is_disabled === true) {
         form_show.style.display = "block";
         update_btn.innerText = "편집 완료";
@@ -16,8 +23,8 @@ function updateProfile() {
         let form_data = new FormData();
 
         form_data.append("image", document.getElementsByName("input")[0].files[0]);
-        form_data.append('username', document.getElementsByName("username")[0].value);
-        form_data.append('email', document.getElementsByName("email")[0].value);
+        form_data.append('username', username);
+        form_data.append('email', email);
 
         fetch("/user/profile", {
             method: "PUT",
