@@ -106,19 +106,15 @@ exports.registerPost = (req, res) => {
 };
 
 exports.profileView = (req, res) => {
-    res.sendFile(path.join(__dirname, '../../../FrontEnd/views/user/profile.html'));
+    res.render('user/profile');
 };
 
 exports.profileGet = async (req, res) => {
-    const userinfo = await User.findOne({
+    User.findOne({
         where: { id: req.decoded.id },
-    });
-
-    return res.status(200).json({
-        message: 'User auth success.',
-        code: 200,
-        data: userinfo,
-    });
+    }).then((data) => {
+        return res.status(200).json({ code: 200, data: data });
+    })
 };
 
 /**

@@ -9,14 +9,14 @@ const REFRESH_SECRET_KEY = config.get('JWT.refresh_secret_key');
 
 const accessToken = (payload) => {
     return jwt.sign(payload, ACCESS_SECRET_KEY, {
-        expiresIn: '5s',
+        expiresIn: '15m',
         issuer: config.get('JWT.issuer'),
     });
 };
 
 const refreshToken = (payload) => {
     return jwt.sign(payload, REFRESH_SECRET_KEY, {
-        expiresIn: '15s',
+        expiresIn: '1h',
         issuer: config.get('JWT.issuer'),
     });
 };
