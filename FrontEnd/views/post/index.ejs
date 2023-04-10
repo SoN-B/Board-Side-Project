@@ -41,7 +41,7 @@
                         <td class="views"><%= post.recommand %></td>
                         <td class="profile"><img src="<%= post.User.profile %>" width=25 height=25></td>
                         <td class="writer">
-                            <a href="/board<%= getPostQueryString(false, { searchType:'author!', searchText:post.User.username }) %>">
+                            <a href="/board<%= getPostQueryString(false, { searchType:'author!', searchText:post.User.username, page:1 }) %>">
                                 <div data-search-highlight="author" class="ellipsis"><%= post.User ? post.User.username : "" %></div>
                             </a>
                         </td>
@@ -54,8 +54,8 @@
         </table>
         <div class="row mb-3">
             <nav class="col-11">
-                <% 
-                    var offset = 2; 
+                <%
+                    var offset = 2;
                     var previousBtnEnabled = currentPage > 1;
                     var nextBtnEnabled = currentPage < maxPage;
                 %>
