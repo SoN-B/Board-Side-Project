@@ -3,7 +3,7 @@
 // 모듈
 const express = require('express');
 const app = express();
-const { sequelize } = require('./src/loaders/db');
+const { sequelize } = require('./src/utils/connect');
 
 const bodyParser = require('body-parser');
 const config = require('config');

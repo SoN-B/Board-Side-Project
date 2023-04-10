@@ -1,12 +1,10 @@
 'use strict';
 
-const { User } = require('../loaders/db');
+const { User } = require('../utils/connect');
 const { Op } = require('sequelize');
 
 const { accessToken, refreshToken } = require('../functions/signJWT');
 const md5 = require('md5');
-
-const path = require('path');
 
 exports.loginView = (req, res) => {
     res.render('user/login');
