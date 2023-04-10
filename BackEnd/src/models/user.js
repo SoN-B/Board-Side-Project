@@ -20,7 +20,7 @@ module.exports = class User extends Sequelize.Model {
                     allowNull: true,
                     defaultValue: config.get('default.profile')
                 },
-                username: {
+                user_name: {
                     type: Sequelize.STRING(30),
                     unique: true,
                     allowNull: false,
@@ -38,8 +38,10 @@ module.exports = class User extends Sequelize.Model {
             {
                 sequelize,
                 timestamps: true,
+                createdAt: 'created_at',
+                updatedAt: 'updated_at',
                 modelName: 'User',
-                tableName: 'userinfo',
+                tableName: 'user_info',
                 charset: 'utf8',
                 collate: 'utf8_general_ci',
             },
@@ -47,7 +49,7 @@ module.exports = class User extends Sequelize.Model {
     }
 
     static associate(db) {
-        db.User.hasMany(db.Post, { foreignKey: 'userkey', sourceKey: 'id', onDelete: 'cascade', onUpdate: 'cascade' });
-        db.User.belongsToMany(db.Post, { through: 'user_post' });
+        db.User.hasMany(db.Post, { foreignKey: 'user_id', sourceKey: 'id', onDelete: 'cascade', onUpdate: 'cascade' });
+        db.User.belongsToMany(db.Post, { through: 'user_post', foreignKey: 'user_id', otherKey: 'post_id' });
     }
 };

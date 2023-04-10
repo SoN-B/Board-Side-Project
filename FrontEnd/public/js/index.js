@@ -11,7 +11,7 @@ function profileAuth() {
     .then((res) => res.json())
     .then((res) => {
         if(res.code === 200) {
-            location.href = "/user/profile/output?username="+res.data.username+"&email="+res.data.email+"&profile="+res.data.profile;
+            location.href = "/user/profile/output?user_name="+res.data.user_name+"&email="+res.data.email+"&profile="+res.data.profile;
         } else if (res.code === 419) {
             fetch("/user/token/refresh", {
                 headers: { 'authorization': localStorage.getItem('refresh_token') }

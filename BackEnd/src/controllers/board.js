@@ -9,7 +9,7 @@ var { createSearchQuery } = require('../functions/query');
 
 const { Op } = require('sequelize');
 
-exports.boardGet = async (req, res) => {
+const boardGet = async (req, res) => {
     let { page, limit } = req.query;
     let where_content = null,
         where_user = null;
@@ -32,8 +32,8 @@ exports.boardGet = async (req, res) => {
         where_content = { title: { [Op.like]: '%' + searchQuery[0].title + '%' } };
     } else if (searchQuery.length === 1 && key[0] === 'body') {
         where_content = { content: { [Op.like]: '%' + searchQuery[0].body + '%' } };
-    } else if (searchQuery.length === 1 && key[0] === 'username') {
-        where_user = { username: searchQuery[0].username };
+    } else if (searchQuery.length === 1 && key[0] === 'user_name') {
+        where_user = { user_name: searchQuery[0].user_name };
     }
 
     Post.findAndCountAll({
@@ -41,12 +41,12 @@ exports.boardGet = async (req, res) => {
             {
                 model: User,
                 required: true, // associated model이 존재하는 객체만을 Return
-                attributes: ['username', 'profile'],
+                attributes: ['user_name', 'profile'],
                 where: where_user,
             },
         ],
         where: where_content,
-        order: [['createdAt', 'DESC']],
+        order: [['created_at', 'DESC']],
         limit: Math.max(1, parseInt(limit)),
         offset: (Math.max(1, parseInt(page)) - 1) * Math.max(1, parseInt(limit)),
     }).then((data) => {
@@ -64,15 +64,15 @@ exports.boardGet = async (req, res) => {
     });
 };
 
-exports.boardPost = (req, res) => {
-    let { title, content } = req.body;
-    let userkey = req.decoded.id;
+const boardPost = (req, res) => {
+    const { title, content } = req.body;
+    const user_id = req.decoded.id;
 
     Post.create({
         title: title,
         content: content,
         view: 0,
-        userkey: userkey,
+        user_id: user_id,
     }).then(() => {
         return res.status(200).json({ code: 200 });
     })
@@ -81,36 +81,40 @@ exports.boardPost = (req, res) => {
     });
 };
 
-exports.newView = (req, res) => {
+const newView = (req, res) => {
     res.render('post/create');
 };
 
-exports.boardView_id = (req, res) => {
-    Post.findOne({ where: { id: req.params.id } }).then((data) => {
-        Post.findOne({
-            include: [
-                {
-                    model: User,
-                    attributes: ['username'],
-                    where: { id: data.userkey },
-                },
-            ],
-            where: { id: req.params.id },
-        }).then((data) => {
-                res.render('post/read', { post: data });
-        })
-        .catch(() => {
-            return res.status(500).json({ code: 500 });
-        });
-    })
-    .catch(() => {
-        return res.status(500).json({ code: 500 });
-    });
+/**
+ * post_id에 해당하는 게시글을 조회하고, 조회수를 1 증가시킨다.
+ *
+ * @returns {Object} 게시글 정보
+ */
+const boardGetByPostId = (req, res) => {
+    const { id: post_id } = req.params;
 
-    Post.increment({ view: 1 }, { where: { id: { [Op.eq]: req.params.id } } });
+    try {
+        Post.findOne({ where: { id: post_id } }).then((data) => {
+            Post.findOne({
+                include: [
+                    {
+                        model: User,
+                        attributes: ['user_name'],
+                        where: { id: data.user_id },
+                    },
+                ],
+                where: { id: post_id },
+            }).then(async (data) => {
+                await Post.increment({ view: 1 }, { where: { id: { [Op.eq]: post_id } } });
+                res.render('post/read', { post: data });
+            });
+        })
+    } catch (err) {
+        return res.status(500).json({ code: 500, message: err.message });
+    }
 };
 
-exports.boardDelete_id = (req, res) => {
+const boardDeleteById = (req, res) => {
     Post.destroy({ where: { id: req.params.id } })
         .then(() => {
             res.redirect('/board' + res.locals.getPostQueryString(false, { page: 1, searchText: '' }));
@@ -120,18 +124,18 @@ exports.boardDelete_id = (req, res) => {
         });
 };
 
-exports.editView_id = (req, res) => {
+const editViewById = (req, res) => {
     Post.findOne({ where: { id: req.params.id } }).then((data) => {
         res.render('post/update', { post: data });
     });
 };
 
-exports.boardEdit_id = (req, res) => {
+const boardEditById = (req, res) => {
     Post.update(
         {
             title: req.body.title,
             content: req.body.content,
-            updatedAt: new Date(),
+            updated_at: new Date(),
         },
         {
             where: { id: req.body.id },
@@ -144,15 +148,15 @@ exports.boardEdit_id = (req, res) => {
     });
 };
 
-exports.auth = (req, res) => {
+const auth = (req, res) => {
     let userid = req.decoded.id;
     let contentid = req.params.id;
 
     Post.findOne({
-        attributes: ['userkey'],
+        attributes: ['user_id'],
         where: { id: contentid },
     }).then((data) => {
-        if (userid === data.userkey) {
+        if (userid === data.user_id) {
             return res.status(200).json({ code: 200, message: 'authorized'});
         } else {
             return res.status(200).json({ code: 200, message: 'unauthorized' });
@@ -160,12 +164,12 @@ exports.auth = (req, res) => {
     });
 };
 
-exports.boardRecommand = (req, res) => {
+const boardRecommand = (req, res) => {
     let userid = req.decoded.id;
     let contentid = req.params.id;
 
     user_post.findOne({
-            where: { [Op.and]: [{ UserId: userid }, { PostId: contentid }] },
+            where: { [Op.and]: [{ user_id: userid }, { post_id: contentid }] },
         }).then((data) => {
             if (data !== null) {
                 // 추천 O
@@ -176,7 +180,7 @@ exports.boardRecommand = (req, res) => {
                     try {
                         Post.update({ recommand: --data.recommand }, { where: { id: contentid }, }, );
 
-                        user_post.destroy({ where: { [Op.and]: [{ UserId: userid }, { PostId: contentid }] }, });
+                        user_post.destroy({ where: { [Op.and]: [{ user_id: userid }, { post_id: contentid }] }, });
 
                         return res.status(200).json({
                             code: 200,
@@ -196,7 +200,7 @@ exports.boardRecommand = (req, res) => {
                     try {
                         Post.update({ recommand: ++data.recommand }, { where: { id: contentid }, }, );
 
-                        user_post.create({ UserId: userid, PostId: contentid, });
+                        user_post.create({ user_id: userid, post_id: contentid, });
 
                         return res.status(200).json({
                             code: 200,
@@ -211,12 +215,12 @@ exports.boardRecommand = (req, res) => {
         });
 };
 
-exports.boardRecommandCheck = (req, res) => {
+const boardRecommandCheck = (req, res) => {
     let userid = req.decoded.id;
     let contentid = req.params.id;
 
     user_post.findOne({
-            where: { [Op.and]: [{ UserId: userid }, { PostId: contentid }] },
+            where: { [Op.and]: [{ user_id: userid }, { post_id: contentid }] },
         }).then((data) => {
             if (data !== null) {
                 // 추천 O
@@ -232,4 +236,17 @@ exports.boardRecommandCheck = (req, res) => {
                 });
             }
     });
+};
+
+module.exports = {
+    boardGet,
+    boardGetByPostId,
+    boardPost,
+    boardEditById,
+    boardDeleteById,
+    editViewById,
+    auth,
+    newView,
+    boardRecommand,
+    boardRecommandCheck,
 };

@@ -27,7 +27,5 @@ app.listen(config.get('server.port'), () => {
 });
 
 sequelize.sync({ force: false })
-    // force : true, alter : true (모델 테이블 재생성 시 db 반영)
-    // force -> 기존 데이터 날아감, alter -> 유지하면서 업데이트
     .then(() => { console.log('Success Connecting DB!'); })
     .catch((err) => { console.error(err); });

@@ -39,17 +39,17 @@ exports.createSearchQuery = async (queries) => {
             postQueries.push({ body: queries.searchText });
         }
         if (searchTypes.indexOf('author!') >= 0) {
-            // 작성자의 username이 정확히 일치하는 경우
-            user = await User.findOne({ where: { username: queries.searchText } });
-            if (user) postQueries.push({ username: user.username });
+            // 작성자의 user_name이 정확히 일치하는 경우
+            user = await User.findOne({ where: { user_name: queries.searchText } });
+            if (user) postQueries.push({ user_name: user.user_name });
             else {
-                postQueries.push({ username: '' });
+                postQueries.push({ user_name: '' });
             }
         } else if (searchTypes.indexOf('author') >= 0) {
-            user = await User.findOne({ where: { username: { [Op.like]: '%' + queries.searchText + '%' } } });
-            if (user) postQueries.push({ username: user.username });
+            user = await User.findOne({ where: { user_name: { [Op.like]: '%' + queries.searchText + '%' } } });
+            if (user) postQueries.push({ user_name: user.user_name });
             else {
-                postQueries.push({ username: '' });
+                postQueries.push({ user_name: '' });
             }
         }
         if (postQueries.length > 0) searchQuery = postQueries;

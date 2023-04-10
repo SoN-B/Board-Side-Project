@@ -47,14 +47,14 @@ exports.registerView = (req, res) => {
 };
 
 exports.registerPost = (req, res) => {
-    let { email, password, username } = req.body;
-    User.findOne({ where: { [Op.or]: [{ email: email }, { username: username }] } }).then((data) => {
+    let { email, password, user_name } = req.body;
+    User.findOne({ where: { [Op.or]: [{ email: email }, { user_name: user_name }] } }).then((data) => {
         let exist_data = JSON.stringify(data); // 객체(Object) -> JSON
         exist_data = JSON.parse(exist_data); // JSON -> 객체(Object)
 
         if (exist_data !== null) {
             // 찾는 데이터가 있을때
-            if (exist_data.username === username) {
+            if (exist_data.user_name === user_name) {
                 return res.status(405).json({
                     message: 'Exist username.',
                     code: 405,
@@ -67,7 +67,7 @@ exports.registerPost = (req, res) => {
             }
         } else {
             // 찾는 이메일, 닉네임이 없을 경우 (중복 X)
-            if (username === '') {
+            if (user_name === '') {
                 return res.status(405).json({
                     message: 'Please input username.',
                     code: 405,
@@ -84,7 +84,7 @@ exports.registerPost = (req, res) => {
                 });
             } else {
                 User.create({
-                    username: username,
+                    user_name: user_name,
                     email: email,
                     password: md5(password),
                 }).then(() => {
@@ -121,11 +121,11 @@ exports.profileGet = async (req, res) => {
  *  - username, email 변동없을 시 편집 정상 수행
  */
 exports.profileEdit = async (req, res) => {
-    let { username, email } = req.body;
+    let { user_name, email } = req.body;
     let user_id = req.decoded.id;
 
     const db_option = {
-        username,
+        user_name,
         email,
         ...(req.file && { profile: req.file.location }),
         // { profile: req.file.location } 객체가 req.file이 undefined이 아닌 경우에만 포함
@@ -141,7 +141,7 @@ exports.profileEdit = async (req, res) => {
 
     try {
         const user = await User.findByPk(user_id);
-        if(username === user.username && email === user.email && req.file === undefined) {
+        if(user_name === user.user_name && email === user.email && req.file === undefined) {
             return res.status(200).json({
                 message: 'Profile no change.',
                 code: 200,
@@ -149,8 +149,8 @@ exports.profileEdit = async (req, res) => {
             });
         }
 
-        const check_username = await User.findOne({ where: { username } });
-        if (check_username && check_username.username !== user.username) {
+        const check_username = await User.findOne({ where: { user_name } });
+        if (check_username && check_username.user_name !== user.user_name) {
             return res.status(409).json({
                 message: 'The username is already in use.',
                 code: 409,

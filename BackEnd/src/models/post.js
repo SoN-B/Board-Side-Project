@@ -30,13 +30,13 @@ module.exports = class Post extends Sequelize.Model {
                     allowNull: false,
                     defaultValue: 0,
                 },
-                createdAt: {
+                created_at: {
                     type: Sequelize.DATE,
                     allowNull: false,
                     defaultValue: Sequelize.NOW,
                     updated_at: false
                 },
-                updatedAt: {
+                updated_at: {
                     type: Sequelize.DATE,
                     allowNull: true,
                     defaultValue: null,
@@ -48,7 +48,7 @@ module.exports = class Post extends Sequelize.Model {
                 timestamps: false,
                 paranoid: true,
                 modelName: 'Post',
-                tableName: 'postinfo',
+                tableName: 'post_info',
                 charset: 'utf8mb4',
                 collate: 'utf8mb4_unicode_ci',
             },
@@ -56,7 +56,7 @@ module.exports = class Post extends Sequelize.Model {
     }
 
     static associate(db) {
-        db.Post.belongsTo(db.User, { foreignKey: 'userkey', targetKey: 'id', onDelete: 'cascade', onUpdate: 'cascade' });
-        db.Post.belongsToMany(db.User, { through: 'user_post' });
+        db.Post.belongsTo(db.User, { foreignKey: 'user_id', targetKey: 'id', onDelete: 'cascade', onUpdate: 'cascade' });
+        db.Post.belongsToMany(db.User, { through: 'user_post', foreignKey: 'post_id', otherKey: 'user_id' });
     }
 };

@@ -14,12 +14,12 @@ router.route('/')
 router.get('/new', ctrl.newView);
 
 router.route('/:id')
-    .get(ctrl.boardView_id)
-    .post(ctrl.boardDelete_id);
+    .get(ctrl.boardGetByPostId)
+    .post(ctrl.boardDeleteById);
 
 router.route('/:id/edit')
-    .get(ctrl.editView_id)
-    .post(auth, ctrl.boardEdit_id);
+    .get(ctrl.editViewById)
+    .post(auth, ctrl.boardEditById);
 
 router.get('/:id/auth', auth, ctrl.auth);
 
