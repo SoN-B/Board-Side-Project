@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.1](https://github.com/SoN-B/Node.JS-Practice/compare/v1.2.1...v1.3.1) (2023-04-10)
+
+
+### Bug Fixes
+
+* 수정일 변경문제 ([765e991](https://github.com/SoN-B/Node.JS-Practice/commit/765e991796ce7875ecbb59156708e0c008786ba9))
+* 작성자 검색 ([b787aca](https://github.com/SoN-B/Node.JS-Practice/commit/b787aca7336f3e09d23ee0dfeb5c729fab3231d6))
+* token issue ([4f66040](https://github.com/SoN-B/Node.JS-Practice/commit/4f66040024bb98878178c48184ae234bad6e7851))
+
+### [1.2.1](https://github.com/SoN-B/Node.JS-Practice/compare/v1.1.1...v1.2.1) (2023-03-24)
+
+
+### Features
+
+* 프로필 편집 ([c3a23b0](https://github.com/SoN-B/Node.JS-Practice/commit/c3a23b082a0d548f232af77c9d408e78b86fa43f))
+* 프로필 편집 ([73d7878](https://github.com/SoN-B/Node.JS-Practice/commit/73d7878d1eddd82c1d9f8c2ba2f0b2d21e883df5))
+
 ### [1.1.1](https://github.com/SoN-B/Node.JS-Practice/compare/v1.0.1...v1.1.1) (2023-03-16)
 
 ### 1.1.0 (2023-03-16)

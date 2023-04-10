@@ -1,12 +1,10 @@
 'use strict';
 
-const { User } = require('../loaders/db');
+const { User } = require('../utils/connect');
 const { Op } = require('sequelize');
 
-const signJWT = require('../functions/signJWT');
+const { accessToken, refreshToken } = require('../functions/signJWT');
 const md5 = require('md5');
-
-const path = require('path');
 
 exports.loginView = (req, res) => {
     res.render('user/login');
@@ -25,8 +23,8 @@ exports.loginPost = (req, res) => {
                 });
             } else {
                 // 비밀번호 맞음
-                let access_token = await signJWT.access({ type: 'JWT', id: user.id });
-                let refresh_token = await signJWT.refresh({ type: 'JWT', id: user.id });
+                let access_token = await accessToken({ type: 'JWT', id: user.id });
+                let refresh_token = await refreshToken({ type: 'JWT', id: user.id });
                 return res.status(200).json({
                     message: 'Authorize success.',
                     code: 200,
@@ -106,19 +104,15 @@ exports.registerPost = (req, res) => {
 };
 
 exports.profileView = (req, res) => {
-    res.sendFile(path.join(__dirname, '../../../FrontEnd/views/user/profile.html'));
+    res.render('user/profile');
 };
 
 exports.profileGet = async (req, res) => {
-    const userinfo = await User.findOne({
+    User.findOne({
         where: { id: req.decoded.id },
-    });
-
-    return res.status(200).json({
-        message: 'User auth success.',
-        code: 200,
-        data: userinfo,
-    });
+    }).then((data) => {
+        return res.status(200).json({ code: 200, data: data });
+    })
 };
 
 /**
@@ -162,7 +156,7 @@ exports.profileEdit = async (req, res) => {
                 code: 409,
             });
         }
-        
+
         const check_email = await User.findOne({ where: { email } });
         if (check_email && check_email.email !== user.email) {
             return res.status(409).json({

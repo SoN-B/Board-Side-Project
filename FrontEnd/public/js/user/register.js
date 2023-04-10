@@ -6,6 +6,12 @@ const register = document.querySelector("#button");
 register.addEventListener("click", Register);
 
 function Register() {
+    const emailRegex = /^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/; // 계정@도메인.최상위도메인
+
+    if(username.value.length < 3) return alert("username must be longer than 2 characters.");
+    if(!emailRegex.test(email.value)) return alert("email must be in the correct format.");
+    if(password.value.length < 3) return alert("password must be longer than 2 characters.");
+
     const req = {
         username: username.value,
         email : email.value,
@@ -22,7 +28,7 @@ function Register() {
     .then((res) => res.json())
     .then((res) => {
         if(res.code === 200) {
-            location.href = "/user/login"; 
+            location.href = "/user/login";
         } else return alert(res.message);
     })
 }

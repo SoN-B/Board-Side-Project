@@ -1,9 +1,8 @@
 'use strict';
 
-const { Post } = require('../loaders/db');
-const { User } = require('../loaders/db');
+const { User, Post } = require('../utils/connect');
 
-const model = require('../loaders/db');
+const model = require('../utils/connect');
 const user_post = model.sequelize.models.user_post;
 
 var { createSearchQuery } = require('../functions/query');
@@ -83,7 +82,7 @@ exports.boardPost = (req, res) => {
 };
 
 exports.newView = (req, res) => {
-    res.render('post/new');
+    res.render('post/create');
 };
 
 exports.boardView_id = (req, res) => {
@@ -98,7 +97,7 @@ exports.boardView_id = (req, res) => {
             ],
             where: { id: req.params.id },
         }).then((data) => {
-                res.render('post/show', { post: data });
+                res.render('post/read', { post: data });
         })
         .catch(() => {
             return res.status(500).json({ code: 500 });
@@ -123,7 +122,7 @@ exports.boardDelete_id = (req, res) => {
 
 exports.editView_id = (req, res) => {
     Post.findOne({ where: { id: req.params.id } }).then((data) => {
-        res.render('post/edit', { post: data });
+        res.render('post/update', { post: data });
     });
 };
 
@@ -132,6 +131,7 @@ exports.boardEdit_id = (req, res) => {
         {
             title: req.body.title,
             content: req.body.content,
+            updatedAt: new Date(),
         },
         {
             where: { id: req.body.id },
@@ -153,9 +153,9 @@ exports.auth = (req, res) => {
         where: { id: contentid },
     }).then((data) => {
         if (userid === data.userkey) {
-            return res.status(200).json({ code: 200 });
+            return res.status(200).json({ code: 200, message: 'authorized'});
         } else {
-            return res.status(500).json({ code: 500 });
+            return res.status(200).json({ code: 200, message: 'unauthorized' });
         }
     });
 };
@@ -181,6 +181,7 @@ exports.boardRecommand = (req, res) => {
                         return res.status(200).json({
                             code: 200,
                             message: 'delete',
+                            data: data,
                         });
                     } catch (error) {
                         return res.status(500).json({ code: 500 });
@@ -200,6 +201,7 @@ exports.boardRecommand = (req, res) => {
                         return res.status(200).json({
                             code: 200,
                             message: 'create',
+                            data: data,
                         });
                     } catch (error) {
                         return res.status(500).json({ code: 500 });
