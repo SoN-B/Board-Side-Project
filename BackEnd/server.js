@@ -6,6 +6,11 @@ const app = express();
 
 const { sequelize } = require('./src/utils/connect');
 
+const morgan = require('morgan'); // log
+const logger = require('./src/functions/winston');
+
+app.use(morgan(':method ":url HTTP/:http-version" :status :response-time ms', { stream: logger.stream }));
+
 const bodyParser = require('body-parser');
 const config = require('config');
 
