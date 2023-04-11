@@ -40,7 +40,10 @@ function updateProfile() {
                 img.src = res.data.profile;
                 $('input[name=username]').val(res.data.user_name);
                 $('input[name=email]').val(res.data.email);
-            } else {
+            } else if (res.code === 400) {
+                alert(res.message);
+                location.reload();
+            } else if (res.code === 500) {
                 alert(res.message);
                 location.reload();
             }

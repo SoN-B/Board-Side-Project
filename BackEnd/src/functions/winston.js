@@ -30,7 +30,6 @@ class CustomTransport extends Transport {
                 status: status,
                 response_time: response_time,
             }).then(() => {
-                console.log('Successfully inserted log into PostgreSQL');
                 callback();
             });
         } else {
