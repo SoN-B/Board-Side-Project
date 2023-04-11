@@ -5,6 +5,7 @@ const router = express.Router();
 
 const ctrl = require('../controllers/home');
 
+// rendering page
 router.get('/', ctrl.homeView);
 router.get('/about', ctrl.aboutView);
 

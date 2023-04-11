@@ -2,7 +2,7 @@
 
 const Sequelize = require('sequelize');
 
-module.exports = class Post extends Sequelize.Model {
+module.exports = class Log extends Sequelize.Model {
     static init(sequelize) {
         return super.init(
             {
@@ -13,33 +13,30 @@ module.exports = class Post extends Sequelize.Model {
                     unique: true,
                     primaryKey: true,
                 },
-                title: {
-                    type: Sequelize.TEXT,
+                level: {
+                    type: Sequelize.STRING(10),
                     allowNull: false,
                 },
-                content: {
-                    type: Sequelize.TEXT,
+                method: {
+                    type: Sequelize.STRING(10),
                     allowNull: false,
                 },
-                view: {
+                message: {
+                    type: Sequelize.STRING(255),
+                    allowNull: false,
+                },
+                status: {
                     type: Sequelize.INTEGER,
                     allowNull: false,
                 },
-                recommand: {
-                    type: Sequelize.INTEGER,
+                response_time: {
+                    type: Sequelize.FLOAT,
                     allowNull: false,
-                    defaultValue: 0,
                 },
                 created_at: {
                     type: Sequelize.DATE,
                     allowNull: false,
                     defaultValue: Sequelize.NOW,
-                    updated_at: false
-                },
-                updated_at: {
-                    type: Sequelize.DATE,
-                    allowNull: true,
-                    defaultValue: null,
                     updated_at: false
                 }
             },
@@ -47,8 +44,8 @@ module.exports = class Post extends Sequelize.Model {
                 sequelize,
                 timestamps: false,
                 paranoid: true,
-                modelName: 'Post',
-                tableName: 'post_info',
+                modelName: 'Log',
+                tableName: 'log',
                 charset: 'utf8mb4',
                 collate: 'utf8mb4_unicode_ci',
             },
@@ -56,7 +53,5 @@ module.exports = class Post extends Sequelize.Model {
     }
 
     static associate(db) {
-        db.Post.belongsTo(db.User, { foreignKey: 'user_id', targetKey: 'id', onDelete: 'cascade', onUpdate: 'cascade' });
-        db.Post.belongsToMany(db.User, { through: 'user_post', foreignKey: 'post_id', otherKey: 'user_id' });
     }
 };

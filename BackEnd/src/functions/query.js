@@ -4,6 +4,9 @@ const { User } = require('../utils/connect');
 
 const { Op } = require('sequelize');
 
+/**
+ * 쿼리스트링 생성 함수 (페이지네이션, 검색) (isAppended: 기존 쿼리스트링에 추가할지 여부) (overwrites: 기존 쿼리스트링 대신 사용할 값)
+ */
 exports.getPostQueryString = (req, res, next) => {
     res.locals.getPostQueryString = function (isAppended = false, overwrites = {}) {
         let queryString = '';
@@ -25,6 +28,9 @@ exports.getPostQueryString = (req, res, next) => {
     next();
 };
 
+/**
+ * 검색 쿼리 생성 함수 (검색어가 없는 경우 null 반환)
+ */
 exports.createSearchQuery = async (queries) => {
     let searchQuery = {}, user;
 
@@ -39,17 +45,17 @@ exports.createSearchQuery = async (queries) => {
             postQueries.push({ body: queries.searchText });
         }
         if (searchTypes.indexOf('author!') >= 0) {
-            // 작성자의 username이 정확히 일치하는 경우
-            user = await User.findOne({ where: { username: queries.searchText } });
-            if (user) postQueries.push({ username: user.username });
+            // 작성자의 user_name이 정확히 일치하는 경우
+            user = await User.findOne({ where: { user_name: queries.searchText } });
+            if (user) postQueries.push({ user_name: user.user_name });
             else {
-                postQueries.push({ username: '' });
+                postQueries.push({ user_name: '' });
             }
         } else if (searchTypes.indexOf('author') >= 0) {
-            user = await User.findOne({ where: { username: { [Op.like]: '%' + queries.searchText + '%' } } });
-            if (user) postQueries.push({ username: user.username });
+            user = await User.findOne({ where: { user_name: { [Op.like]: '%' + queries.searchText + '%' } } });
+            if (user) postQueries.push({ user_name: user.user_name });
             else {
-                postQueries.push({ username: '' });
+                postQueries.push({ user_name: '' });
             }
         }
         if (postQueries.length > 0) searchQuery = postQueries;

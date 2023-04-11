@@ -41,12 +41,12 @@
                         <td class="views"><%= post.recommand %></td>
                         <td class="profile"><img src="<%= post.User.profile %>" width=25 height=25></td>
                         <td class="writer">
-                            <a href="/board<%= getPostQueryString(false, { searchType:'author!', searchText:post.User.username, page:1 }) %>">
-                                <div data-search-highlight="author" class="ellipsis"><%= post.User ? post.User.username : "" %></div>
+                            <a href="/board<%= getPostQueryString(false, { searchType:'author!', searchText:post.User.user_name, page:1 }) %>">
+                                <div data-search-highlight="author" class="ellipsis"><%= post.User ? post.User.user_name : "" %></div>
                             </a>
                         </td>
                         <td class="date">
-                            <span data-date="<%= post.createdAt %>"></span>
+                            <span data-date="<%= post.created_at %>"></span>
                         </td>
                     </tr>
                 <% }) %>
@@ -128,7 +128,7 @@
             if (!localStorage.getItem('access_token')) {
                 alert("Please login first.");
                 location.href = '/user/login';
-            } else { location.href = '/board/new'; }
+            } else { location.href = '/board/post/new'; }
         }
     </script>
     <script src="/js/post/date.js" defer></script>
