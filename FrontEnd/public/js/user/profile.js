@@ -43,7 +43,7 @@ function updateProfile() {
             } else if (res.code === 400) {
                 alert(res.message);
                 location.reload();
-            } else if (res.code === 500) {
+            } else {
                 alert(res.message);
                 location.reload();
             }
