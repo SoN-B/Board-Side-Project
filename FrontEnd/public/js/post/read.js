@@ -16,12 +16,10 @@ window.onload = function checkAuthorization() { // Always execute this function 
     })
         .then((res) => res.json())
         .then((res) => {
-            if (res.code === 200) {
-                if (res.message === 'authorized') {
-                    $('form[name="method_form"]').append(owner);
-                } else if (res.message === 'unauthorized') {
-                    $('form[name="method_form"]').append();
-                }
+            if (res.code === 200 && res.message === 'authorized') {
+                $('form[name="method_form"]').append(owner);
+            } else if (res.code === 401 && res.message === 'unauthorized') {
+                $('form[name="method_form"]').append();
             } else if (res.code === 419) { // Access Token has expired.
                 fetch("/user/token/refresh", {
                     headers: { 'authorization': localStorage.getItem('refresh_token') }

@@ -20,8 +20,8 @@ function updatePost() {
         content : body.value
     }
 
-    fetch(`/board/${content_id[4]}/edit`, {
-        method: "POST",
+    fetch(`/board/${content_id[4]}`, {
+        method: "PATCH",
         headers:{
             'Content-Type': 'application/json',
             'authorization': localStorage.getItem('access_token')

@@ -42,7 +42,7 @@
         </div>
 
         <div class="mt-3">
-            <form name="method_form" action="/board/<%= post.id %>" method="post">
+            <form name="method_form" action="/board/<%= post.id %>?_method=delete" method="post">
                 <a class="btn btn-secondary" href="/board<%= getPostQueryString() %>">Back</a>
             </form>
         </div>
