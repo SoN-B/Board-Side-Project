@@ -1,9 +1,20 @@
 'use strict';
 
-exports.homeView = (req, res) => {
+/**
+ * 홈화면 렌더링
+ */
+const homeView = (req, res) => {
     res.render('home/welcome');
 };
 
-exports.aboutView = (req, res) => {
+/**
+ * About 화면 렌더링
+ */
+const aboutView = (req, res) => {
     res.render('home/about');
 };
+
+module.exports = {
+    homeView,
+    aboutView,
+}

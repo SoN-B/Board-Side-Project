@@ -27,7 +27,7 @@ function updateProfile() {
         form_data.append('email', email);
 
         fetch("/user/profile", {
-            method: "PUT",
+            method: "PATCH",
             headers:{
                 'authorization': localStorage.getItem('access_token')
             },
