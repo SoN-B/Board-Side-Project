@@ -4,6 +4,9 @@ const { User } = require('../utils/connect');
 
 const { Op } = require('sequelize');
 
+/**
+ * 쿼리스트링 생성 함수 (페이지네이션, 검색) (isAppended: 기존 쿼리스트링에 추가할지 여부) (overwrites: 기존 쿼리스트링 대신 사용할 값)
+ */
 exports.getPostQueryString = (req, res, next) => {
     res.locals.getPostQueryString = function (isAppended = false, overwrites = {}) {
         let queryString = '';
@@ -25,6 +28,9 @@ exports.getPostQueryString = (req, res, next) => {
     next();
 };
 
+/**
+ * 검색 쿼리 생성 함수 (검색어가 없는 경우 null 반환)
+ */
 exports.createSearchQuery = async (queries) => {
     let searchQuery = {}, user;
 
